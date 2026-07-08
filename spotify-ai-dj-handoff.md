@@ -113,7 +113,7 @@ Plain-language explanation required for: what PKCE is doing, what a URI vs. ID i
 
 ### Phase 3 — The DJ loop as a Claude Code skill/command
 
-Codify the loop so any session can run it: read `taste-profile.md` → generate tracklist for the prompt → run resolver → handle misses with substitutions → confirm. Add an `update` mode (replace an existing playlist's items rather than creating a new one) for standing playlists like "Work Focus."
+Codify the loop so any session can run it: read `taste-profile.md` → generate tracklist for the prompt → run resolver → handle misses with substitutions → confirm. Add an `update` mode (replace an existing playlist's items rather than creating a new one) for the standing "AI DJ" playlists (see Section 10). Note: the five source playlists Jacob named are **read-only seeds**, not update targets — the update targets are the AI-authored versions I create.
 
 **Acceptance test:** cold session, one prompt ("hour-long Sunday cooking playlist, upbeat but not frantic"), playlist on the phone in one pass with ≤2 manual interventions.
 
@@ -157,6 +157,40 @@ Every script failure prints what failed, which track/call, and the HTTP status i
 6. When a track can't be found: substitute automatically with a Claude-chosen alternative, or always ask?
 7. Standing playlists you already know you want (work focus, cooking, driving)? These become the Phase 3 update-mode targets.
 8. Python installed on the Dell yet? Which version? (Determines whether Phase 0 starts with environment setup.)
+
+---
+
+## 10. Operating Decisions (interview answers, locked 2026-07-08)
+
+Answers to the Section 9 interview. These are locked — do not relitigate.
+
+| Question | Decision | Notes |
+|---|---|---|
+| Apple Music export | **Done** — playlists already live on Spotify | Seed-data risk retired. |
+| Duo plan + dev portal login | **Confirmed working** | Can log into developer.spotify.com with the Duo account. |
+| Naming convention | **`"AI DJ — {name}"` prefix** | e.g. "AI DJ — Sunday Cooking". Groups all authored playlists together. |
+| Visibility | **Public** | Playlists appear on Jacob's Spotify profile. |
+| Explicit content | **Allow everything** | No clean-version filtering; match the intended track. |
+| Missed tracks | **Auto-substitute, silent** | Pick a close alternative and move on. No miss report needed for substitutions. (Still fail-loud on hard errors per Section 7 — a *silent substitution* is not a *silent drop*: every intended slot gets filled, but Jacob doesn't need a per-swap changelog.) |
+| Standing playlists | **All 5 sources are read-only seeds** | Liked Songs, Your All-Time Top Songs, Lofi Cafe, 80s Rock, Trip Hop. I do NOT write to any of them. Instead I create/maintain AI-authored counterparts (below). |
+| Python on run machine | **Not on Dell yet; will install** | Python 3.14.6 exists on Jacob's work desktop, but the Dell is home base. ~5-min install, walk through in Phase 0. Confirm `requests` supports 3.14. |
+
+**Standing "AI DJ" playlists to build (Phase 3 update-mode targets):**
+- `AI DJ — Liked Songs` (inspired by the Saved Tracks library, read as a taste seed)
+- `AI DJ — Heavy Rotation` (counterpart to "Your All-Time Top Songs"; Spotify's own is Spotify-generated and not writable)
+- `AI DJ — Lofi Cafe`
+- `AI DJ — 80s Rock`
+- `AI DJ — Trip Hop`
+
+**Why "read-only seeds":** Liked Songs is a hand-curated library (a different API surface from playlists) — having a tool overwrite it is too destructive to risk. "Your All-Time Top Songs" is Spotify-generated and not user-editable, and leans on `/me/top/*` endpoints that may have been cut (verify in Phase 0). Both are safer as inputs I learn from than as things I manage.
+
+### Runtime decision (extends Section 2 / Section 8-A)
+
+**v1 runs locally on the Dell (Python install).** GitHub Actions is a valid — and attractive — hosting upgrade, but deferred, for two reasons:
+1. **Initial PKCE consent is interactive** (browser login). Actions is headless, so the first auth must happen once on a real machine regardless; the resulting refresh token would then be stored as an encrypted GitHub secret for unattended runs.
+2. **Actions front-loads complexity** (secrets, workflow files, a trigger mechanism to pass the tracklist in) onto an as-yet-unproven script. Phase 0's job is to prove the auth→search→create pipe with minimum moving parts.
+
+**Design constraint carried forward:** write `push_playlist.py` **Actions-ready from the start** — token read from an environment variable, tracklist passed as a file, fully non-interactive execution. Migrating to Actions later becomes config (store secret + add workflow), not a rewrite. This is the concrete near-term form of Section 8-A.
 
 ---
 

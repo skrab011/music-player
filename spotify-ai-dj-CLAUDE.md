@@ -35,7 +35,7 @@ All curation intelligence comes from Claude. Never attempt to call `/recommendat
 
 - **Python 3**, minimal dependencies: `requests` (or `spotipy` only if it has been updated for the Feb 2026 endpoint renames — verify before adopting)
 - **Auth:** Authorization Code with PKCE, token cached to a local gitignored file, auto-refresh
-- **Runs on:** Jacob's Dell Precision 5510 (Windows). No server, no hosting, no scheduler in v1.
+- **Runs on:** Jacob's Dell Precision 5510 (Windows) for v1 — Python to be installed there. No server, no hosting, no scheduler in v1. `push_playlist.py` is written Actions-ready (token from env var, tracklist from file, non-interactive) so GitHub Actions is a config-only hosting upgrade later. See handoff Section 10.
 - **Curation:** Claude Code session (subscription cost = $0 marginal). Anthropic API backend is a documented future upgrade, not v1.
 
 ## Repo hygiene
@@ -46,4 +46,4 @@ All curation intelligence comes from Claude. Never attempt to call `/recommendat
 
 ## Reference
 
-Full plan, locked decisions, dead ends, phases, and acceptance tests: `spotify-ai-dj-handoff.md`
+Full plan, locked decisions, dead ends, phases, and acceptance tests: `spotify-ai-dj-handoff.md`. Interview answers / operating decisions (naming, visibility, explicit, misses, standing playlists, runtime): handoff Section 10.
