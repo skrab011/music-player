@@ -1,0 +1,163 @@
+# Spotify AI DJ — Project Handoff & Phased Plan
+
+**Project:** Personal AI playlist curator ("ai-dj") — Claude curates, Spotify delivers, official app plays
+**Owner:** Jacob (architect, SAI — coding novice, strong domain knowledge)
+**Execution environment:** Claude Code, Windows (Dell Precision 5510)
+**Status:** Scoped, not started
+**Last updated:** 2026-07-08
+
+---
+
+## 1. Functional Spec
+
+Jacob wants a Pandora/Apple Music replacement where an AI generates playlists tailored to his taste, at zero/near-zero marginal cost. He is cancelling Apple Music. He has Spotify Premium through a Duo plan shared with his brother (his own account — no shared-login issues).
+
+**The system:**
+- Jacob prompts Claude Code with a mood, activity, era, or vibe
+- Claude generates a tracklist from its own music knowledge, informed by a persistent taste profile
+- A Python script resolves tracks against Spotify's catalog and creates/updates a playlist on Jacob's account
+- Jacob plays the playlist in the official Spotify app (iPhone or desktop) — full Premium quality, offline downloads, no ads
+- Feedback ("skip the ambient stuff", "more like track 4") updates the taste profile for next time
+
+**Explicitly NOT in scope:** playing audio, a custom playback UI, real-time "radio" that reacts per-song, anything requiring a server.
+
+---
+
+## 2. Locked Architecture Decisions — do not relitigate
+
+| Decision | Choice | Rationale |
+|---|---|---|
+| Music source | Spotify catalog via Jacob's own Premium account (Duo) | Feb 2026: Dev Mode apps *require* the owner to hold active Premium. Jacob already pays for it. Free-account route is dead as of Feb 2026. |
+| Playback | Official Spotify apps | Jacob approved app-frontend/custom-backend split. Sidesteps all iOS PWA audio flakiness. Playlists sync automatically. |
+| Curation engine | Claude Code session (interactive) | $0 marginal cost on existing subscription. Anthropic API backend = future upgrade path (Section 8), not v1. |
+| Language | Python 3, minimal deps | Novice-friendly; matches Jacob's other projects (Pi alarm plan, terrain scripts). |
+| Auth flow | Authorization Code with PKCE | No client secret to protect — safest pattern for a novice's local script. Token cached locally, gitignored, auto-refreshed. |
+| Where it runs | Local script on Dell laptop, run on demand by Claude Code | No server exists (no Pi purchased yet — confirmed 2026-07-08). No hosting cost. No scheduler needed for on-demand playlists. |
+| Taste memory | `taste-profile.md` in repo, maintained by Claude | Plain-text, human-readable, survives across sessions, versioned in Git. |
+| Spotify's role | Catalog search + playlist CRUD **only** | All discovery endpoints removed for new Dev Mode apps (see Section 3). Claude does 100% of curation. |
+
+---
+
+## 3. API Reality Check (verified 2026-07-08 against Spotify's Feb 2026 migration guide)
+
+This section exists because Spotify has repeatedly cut Dev Mode capabilities (Nov 2024, then Feb 2026). The implementing Claude must treat this as ground truth and **re-verify against current docs in Phase 0** — the pattern suggests further cuts are possible.
+
+**Available and load-bearing:**
+- `GET /search` — resolve tracks. **Limit max is 10 per request** (was 50); default 5. Paginate with `offset`.
+- `POST /me/playlists` — create playlist (the old `POST /users/{id}/playlists` is removed)
+- `POST /playlists/{id}/items` — add tracks (renamed from `/tracks`)
+- `PUT /playlists/{id}/items`, `DELETE /playlists/{id}/items` — reorder/replace/remove
+- `GET /me/playlists`, `GET /playlists/{id}/items` — read own playlists (items only returned for playlists the user owns/collaborates on)
+- `GET /me` — profile (note: `product`, `email`, `country` fields removed)
+- `GET /tracks/{id}`, `GET /artists/{id}`, `GET /albums/{id}` — individual fetches only
+
+**Removed — never call, never debug:**
+- `/recommendations`, `/audio-features`, `/audio-analysis` (Nov 2024)
+- `/artists/{id}/related-artists`, `/artists/{id}/top-tracks` (removed for new apps)
+- All batch fetches: `GET /tracks?ids=`, `GET /artists?ids=`, `GET /albums?ids=` — fetch individually
+- `/browse/new-releases`, `/browse/categories`
+- Other users' profiles/playlists (`GET /users/{id}/*`)
+- `popularity` field on tracks/artists/albums, `label` on albums — gone from responses
+
+**Account/app constraints:**
+- 1 Client ID per developer, 5 users per app (fine — this app has 1 user)
+- Owner must hold active Premium; app stops working if it lapses (Jacob's Duo covers this — **note: if the Duo plan ever changes, this project has a dependency on it**)
+- Dev Mode rate limits are modest; the per-track individual fetches + 10-result search pages mean the script should throttle politely (small sleep between calls) and batch its work per playlist, not per keystroke
+
+---
+
+## 4. Dead Ends & Rejected Options — recorded, never deleted
+
+| Option | Why rejected |
+|---|---|
+| Navidrome/Jellyfin self-hosted library | No Pi owned yet; Jacob has no music library and doesn't want to buy one — the whole point is avoiding new spend. Revisit if he ever buys a Pi AND builds a library. |
+| Royalty-free catalogs (Jamendo, FMA) as primary source | Zero overlap with commercial catalogs by definition — royalty-free artists never signed label deals. Viable only as a *discovery side-quest*, not a replacement. |
+| Free Spotify account as source | Killed by Feb 2026 Premium requirement for Dev Mode apps. Was also degraded by mobile shuffle-mode limits. |
+| Piggybacking brother's account | Single concurrent stream = fighting over playback; Jacob's listening would pollute brother's algorithm (tastes differ significantly); against ToS with API credentials attached; and unnecessary — Jacob has his own Premium via Duo. |
+| Custom PWA for playback | iOS background-audio flakiness in installed PWAs; Web Playback SDK effectively out of reach for new apps post-2025 access changes. Official app is strictly better here. |
+| Spotify's recommendation engine as the brain | Endpoints removed Nov 2024. Claude's music knowledge replaces it — arguably an upgrade (steerable by natural language, explains its choices). |
+| Anthropic API as v1 curation backend | Works, but costs real (if small) money per playlist and adds key management for a novice. Deferred to Section 8. |
+
+---
+
+## 5. Phased Plan
+
+**Phase ordering rule:** riskiest unknown first. The riskiest unknown is whether a brand-new Dev Mode app (post-Feb 2026 restrictions) can complete the full auth → search → create → populate round-trip. Prove that before building anything nice.
+
+### Phase 0 — Preserve seed data + prove the pipe (riskiest unknown)
+
+**Before anything else:**
+1. **Export Apple Music playlists NOW, before cancelling.** Minimum viable: share links or manual artist–title lists pasted into `seed-playlists/` as text files. These are the taste-profile seed corpus and are unrecoverable after cancellation.
+2. Create the Spotify app at developer.spotify.com (Web API use case). Record Client ID. Set redirect URI to `http://127.0.0.1:<port>/callback` (Spotify no longer allows `localhost` literal in new redirect URIs — use the loopback IP; verify current rules).
+3. **Re-verify Section 3 against current Spotify docs** — flag any drift to Jacob before proceeding.
+
+**Build:** one bare-bones script: PKCE auth (opens browser, catches callback locally, caches token) → search one hardcoded track → create a playlist named "AI DJ — pipe test" → add the track.
+
+**Acceptance test:** playlist appears in Jacob's Spotify iPhone app with the correct track, within a minute, without touching the Spotify UI. Token refresh works on a second run a day later without re-login.
+
+**If this phase fails** (e.g., Spotify has restricted app creation further): STOP. The fallback conversation is Section 8, option C.
+
+### Phase 1 — Taste profile from seed data
+
+Claude reads the exported Apple Music playlists and interviews Jacob on gaps (draft-first-then-interview pattern): favorite artists vs. incidental tracks, moods he actually queues up, hard nos. Output: `taste-profile.md` — genres, anchor artists, sonic descriptors, context buckets (work focus / cooking / driving I-70), and an explicit do-not-play list.
+
+**Acceptance test:** Jacob reads the profile and agrees it's him. No code in this phase.
+
+### Phase 2 — The resolver script (`push_playlist.py`)
+
+Input: a JSON or plain-text tracklist (artist – title per line). For each track: search Spotify (respecting the 10-result page cap), pick the best match (exact-ish artist+title match; prefer album version over live/remix unless requested), collect URIs, create the playlist with a supplied name/description, add tracks in order. Output a **miss report**: tracks not found or low-confidence matches, printed clearly for Claude to substitute.
+
+Plain-language explanation required for: what PKCE is doing, what a URI vs. ID is, how the matcher decides, why we sleep between requests.
+
+**Acceptance test:** a 25-track list with 2 deliberately misspelled entries produces a playlist with ≥20 correct tracks and a miss report naming the failures. Live/karaoke/cover junk matches < 2.
+
+### Phase 3 — The DJ loop as a Claude Code skill/command
+
+Codify the loop so any session can run it: read `taste-profile.md` → generate tracklist for the prompt → run resolver → handle misses with substitutions → confirm. Add an `update` mode (replace an existing playlist's items rather than creating a new one) for standing playlists like "Work Focus."
+
+**Acceptance test:** cold session, one prompt ("hour-long Sunday cooking playlist, upbeat but not frantic"), playlist on the phone in one pass with ≤2 manual interventions.
+
+### Phase 4 — Feedback + taste evolution
+
+A lightweight convention: Jacob reports reactions in plain language; Claude appends dated adjustments to `taste-profile.md` (never silently rewrites history — additive log section). Optional: a `promote` command that copies loved tracks into a permanent "AI DJ Gold" playlist.
+
+**Acceptance test:** after two feedback rounds, a regenerated playlist visibly reflects the corrections.
+
+### Phase 5 (optional) — Discovery mode
+
+Claude proposes tracks/artists *outside* the profile deliberately (adjacent genres, deep cuts, the East Asian ambient/jazz territory Jacob gravitates toward aesthetically). Marked as experiments; feedback feeds Phase 4. This replaces — and out-explains — Spotify's dead recommendation engine.
+
+---
+
+## 6. Out of Scope
+
+- Playing audio anywhere in this codebase
+- Scheduling/automation (no daily auto-playlists in v1 — no always-on machine exists)
+- Multi-user anything
+- Scraping Spotify or any workaround for removed endpoints
+- Audio-feature analysis via third-party APIs (RapidAPI resellers exist; cost + reliability not worth it for v1)
+
+## 7. Fail-loud defaults
+
+Every script failure prints what failed, which track/call, and the HTTP status in plain English. No silent skips: a track that can't be resolved goes in the miss report, never quietly dropped. Auth failures explain whether it's an expired token (auto-fix) or a revoked app (manual fix, with steps).
+
+## 8. Future upgrade paths (documented, not planned)
+
+- **A. Anthropic API backend:** replace the interactive Claude Code session with a script calling the Messages API — enables one-command playlists outside Code sessions. Costs per-call; needs API key management. Sensible once the loop is proven.
+- **B. Web front-end:** a small local page ("give me a vibe" text box) driving option A. Only worth it if the CLI loop feels clunky in practice.
+- **C. Fallback if Spotify closes Dev Mode further:** revisit the self-hosted route (Navidrome + purchased library + future Pi) or Apple MusicKit ($99/yr developer account — Jacob prefers Apple's artist treatment, so this is not absurd if he'd otherwise return to an Apple Music subscription anyway).
+
+## 9. Interview the implementing Claude must run before writing any code
+
+1. Have you exported your Apple Music playlists yet? (If no — stop, do that first.)
+2. Confirm: still on the Duo plan, own login works on developer.spotify.com?
+3. Playlist naming convention preference? (e.g., "AI DJ — Sunday Cooking" prefix vs. bare names)
+4. Default playlist visibility: private or public?
+5. Explicit-content filter: allow everything, or filter?
+6. When a track can't be found: substitute automatically with a Claude-chosen alternative, or always ask?
+7. Standing playlists you already know you want (work focus, cooking, driving)? These become the Phase 3 update-mode targets.
+8. Python installed on the Dell yet? Which version? (Determines whether Phase 0 starts with environment setup.)
+
+---
+
+**Jacob — standing reminder:** save copies of this doc and the CLAUDE.md to Obsidian for offline storage, in addition to committing them to the Git repo.
