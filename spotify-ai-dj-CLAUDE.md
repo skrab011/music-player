@@ -44,6 +44,11 @@ All curation intelligence comes from Claude. Never attempt to call `/recommendat
 - `taste-profile.md` — Claude maintains this. Update it when Jacob gives feedback ("less of X", "loved that one").
 - Dead ends and corrections get recorded in the handoff doc, never deleted.
 
+## Git workflow
+
+- **Work lands on `main`.** This is a solo personal project — no PR review flow. When a session starts on a designated feature branch (Claude Code on the web does this automatically), merge the work to `main` and push there rather than leaving it stranded on a branch or opening a PR. Don't push to long-lived side branches.
+- Commit with clear, plain-language messages. Keep the token cache and any secrets out of history (gitignored).
+
 ## Reference
 
 Full plan, locked decisions, dead ends, phases, and acceptance tests: `spotify-ai-dj-handoff.md`. Interview answers / operating decisions (naming, visibility, explicit, misses, standing playlists, runtime): handoff Section 10.
