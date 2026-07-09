@@ -3,9 +3,9 @@
 **What this is:** the persistent memory the AI DJ uses to curate playlists that
 sound like *you*. Claude maintains it; it grows as you give feedback.
 
-**Status:** DRAFT v0.4 (2026-07-09). Built from your Liked Songs, listening
-history, 19 exported playlists, ~10 recent Apple Music adds, and two rounds of
-interview. Only thing left before it's "locked": your final read-through.
+**Status:** LOCKED v1.0 — accepted by Jacob 2026-07-09 (Phase 1 acceptance test
+passed: "great profile, no notes"). Now a **living document** — it evolves through
+the feedback log (Phase 4) as your taste shifts, rather than being rewritten.
 
 **How to read this:** skim it and tell me where it's wrong. Anything with a ❓ is
 a live question.
@@ -142,10 +142,10 @@ Everything else (nostalgia, seasonal, Taylor) stays on-demand. ❓ Happy with th
 
 1. ~~Screamo line~~ ✅ OM&M is the ceiling.
 2. ~~Focus lane~~ ✅ lo-fi/instrumental/trip hop/downtempo; soft vocals OK.
-   *(House sub-genre name still TBD — no rush.)*
+   *(House sub-genre name still TBD — no rush, non-blocking.)*
 3. ~~Country scope~~ ✅ broad go-to.
-4. ~~Standing set~~ ✅ 7 playlists approved (confirm the names).
-5. **Final read-through** — Jacob to skim the whole profile and confirm it's him.
+4. ~~Standing set~~ ✅ 7 playlists approved and named.
+5. ~~Final read-through~~ ✅ approved 2026-07-09. **Phase 1 complete.**
 
 ---
 
@@ -159,3 +159,5 @@ Everything else (nostalgia, seasonal, Taylor) stays on-demand. ❓ Happy with th
   playlists**; softened focus lane to allow atmospheric vocals (Björk); re-allowed
   melodic/emo rap (blackbear, grandson, Lil Dicky, Ryan Caraveo); locked the
   7-playlist standing set.
+- _(2026-07-09)_ **v1.0 — Jacob read and approved ("great profile, no notes");
+  7 standing-playlist names confirmed. Phase 1 complete.**

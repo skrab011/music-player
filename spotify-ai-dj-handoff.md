@@ -111,6 +111,8 @@ Claude reads the exported Apple Music playlists and interviews Jacob on gaps (dr
 
 **Acceptance test:** Jacob reads the profile and agrees it's him. No code in this phase.
 
+**Result (2026-07-09): PASS.** `taste-profile.md` locked at v1.0; Jacob approved ("great profile, no notes"). Built from Liked Songs, ~15k history, all 19 labeled playlists, and ~10 recent Apple adds, across two interview rounds. Key outcomes: signal priority is *likes > labeled playlists* (Jacob curates by liking, not playlisting); screamo ceiling = Of Mice & Men; focus lane = lo-fi/trip hop/downtempo (soft vocals OK); country is a broad go-to; 7 standing playlists approved (**AI DJ — Chill · Hype · Heavier · Summer · Workout · Country · Focus**).
+
 ### Phase 2 — The resolver script (`push_playlist.py`)
 
 Input: a JSON or plain-text tracklist (artist – title per line). For each track: search Spotify (respecting the 10-result page cap), pick the best match (exact-ish artist+title match; prefer album version over live/remix unless requested), collect URIs, create the playlist with a supplied name/description, add tracks in order. Output a **miss report**: tracks not found or low-confidence matches, printed clearly for Claude to substitute.
@@ -207,8 +209,9 @@ Answers to the Section 9 interview. These are locked — do not relitigate.
 Snapshot of exactly where we stopped, so the next session starts cold with zero re-derivation. **Read this first.**
 
 ### Where we are
-- **Phase 0 — PASS (round-trip).** `pipe_test.py` completed auth → search → create → add; playlist appeared on Jacob's phone. **One thing left:** the next-day auto-refresh durability check — run `check_login.py` (should print OK with no browser). That closes Phase 0 fully.
-- **Phase 1 — in progress.** Library exporter built and working. `taste-profile.md` **v0.1 drafted** from Liked Songs + listening history + interview. Not yet agreed-to by Jacob (that agreement IS the Phase 1 acceptance test).
+- **Phase 0 — PASS (round-trip).** `pipe_test.py` completed auth → search → create → add; playlist appeared on Jacob's phone. **One thing still open:** the next-day auto-refresh durability check — run `check_login.py` (should print OK with no browser). Minor; doesn't block Phase 2.
+- **Phase 1 — COMPLETE.** `taste-profile.md` **locked at v1.0**, Jacob approved. All 19 labeled playlists + Liked Songs + ~10 recent Apple adds imported. 7 standing playlists approved.
+- **Phase 2 — NEXT.** Build `push_playlist.py` (the resolver) and use it to create the 7 standing playlists for real.
 
 ### What's built and committed (all on `main`)
 - `config.py` — Client ID, redirect URI (`127.0.0.1:8888/callback`), token-cache path, scopes. Env-overridable for future Actions use.
@@ -219,17 +222,18 @@ Snapshot of exactly where we stopped, so the next session starts cold with zero 
 - `seed-playlists/` — `liked-songs.txt` (1,214) and `top-tracks.txt` (~15k) are **real**; the per-playlist files are **still empty** pending Jacob's re-run (see below).
 - `taste-profile.md` — v0.1 draft.
 
-### Jacob's TODO when he's back
-1. **Re-run the export** to populate the empty per-playlist files (they're the highest-value, context-labeled signal):
-   `git pull` → `python export_playlists.py` → `git add seed-playlists` → commit → `git push`.
-2. **Run `check_login.py`** (any time after ~an hour / next day) to close Phase 0's durability half.
-3. **Answer the 5 open taste-profile questions** (in `taste-profile.md`, "Open questions"): (a) where the screamo line sits — Bad Omens / Our Last Night have some screamed vocals; (b) is lo-fi/instrumental the right curated substitute for his Endel focus habit; (c) is country driving-only or broader; (d) which buckets become *standing* playlists vs on-demand moods; (e) any over-/under-weighting (e.g. is Morgan Wallen really him).
-4. *(Optional)* delete the "AI DJ — pipe test" playlist from Spotify.
+### Jacob's TODO (small, non-blocking)
+1. **Run `check_login.py`** once (after ~an hour / next day) to close Phase 0's durability half.
+2. *(Optional)* manually add the 10 recent Apple songs to his Spotify Liked Songs — or wait for the end-of-build library-write feature (see Backlog).
+3. *(Optional)* delete the "AI DJ — pipe test" playlist from Spotify.
 
-### For the next Claude — what to do once Jacob returns
-- Pull the repo. If the per-playlist `seed-playlists/*.txt` now have tracks, **fold them into the context buckets** in `taste-profile.md` (they map to buckets: `alternative-teen-angst…`→sad-boi, `racing`/`lt-run`/`lit`→workout, `80s-rock`→nostalgia, seasonal ones→vibey, `taylor`→Taylor, etc.).
-- Incorporate his answers to the 5 questions, then get his sign-off → **Phase 1 done**.
-- Then **Phase 2**: build `push_playlist.py` (the resolver — tracklist in → search/match/miss-handling → create/update playlist). Keep it Actions-ready and heavily commented (novice).
+### Backlog (do at END of build, per Jacob's request)
+- **Save-to-Liked-Songs feature:** add the `user-library-modify` scope and a small helper so Claude can save tracks into Jacob's Liked Songs directly (e.g., promote loved tracks, or add the recent Apple picks). Jacob wants to grant this permission later, not now.
+
+### For the next Claude — Phase 2 starts here
+- **Build `push_playlist.py`** — the resolver. Input: a tracklist (artist – title per line, or JSON). For each track: `GET /search` (limit ≤10, paginate with offset), pick the best match (tight artist+title; prefer studio over live/remix/cover unless asked), collect URIs. Then create a playlist (`POST /me/playlists`, public per Section 10) or update an existing one's items (`PUT /playlists/{id}/items`), adding via `POST /playlists/{id}/items`. **Auto-substitute misses silently** (Section 10 decision) but still print a clear report of what was swapped/failed. Reuse `spotify_auth.get_access_token()`. Keep it Actions-ready and heavily commented (novice).
+- **First real use:** generate tracklists from `taste-profile.md` (v1.0) and create the 7 standing playlists: **AI DJ — Chill · Hype · Heavier · Summer · Workout · Country · Focus.**
+- Then Phases 3–4 (DJ-loop command + `update` mode; feedback log).
 
 ### Environment facts (so the next session doesn't rediscover them)
 - Runs on Jacob's Dell (Windows), **PowerShell**, **Python 3.14.6**, **git 2.55**. Repo at `C:\Users\jskra\Documents\music-player`.
