@@ -3,8 +3,8 @@
 **Project:** Personal AI playlist curator ("ai-dj") — Claude curates, Spotify delivers, official app plays
 **Owner:** Jacob (architect, SAI — coding novice, strong domain knowledge)
 **Execution environment:** Claude Code, Windows (Dell Precision 5510)
-**Status:** Scoped, not started
-**Last updated:** 2026-07-08
+**Status:** Phase 0 essentially complete (round-trip proven; one durability check left). Phase 1 in progress (taste profile drafted). **See Section 11 for the resume-here checkpoint.**
+**Last updated:** 2026-07-09
 
 ---
 
@@ -199,6 +199,51 @@ Answers to the Section 9 interview. These are locked — do not relitigate.
 2. **Actions front-loads complexity** (secrets, workflow files, a trigger mechanism to pass the tracklist in) onto an as-yet-unproven script. Phase 0's job is to prove the auth→search→create pipe with minimum moving parts.
 
 **Design constraint carried forward:** write `push_playlist.py` **Actions-ready from the start** — token read from an environment variable, tracklist passed as a file, fully non-interactive execution. Migrating to Actions later becomes config (store secret + add workflow), not a rewrite. This is the concrete near-term form of Section 8-A.
+
+---
+
+## 11. Resume-Here Checkpoint (2026-07-09)
+
+Snapshot of exactly where we stopped, so the next session starts cold with zero re-derivation. **Read this first.**
+
+### Where we are
+- **Phase 0 — PASS (round-trip).** `pipe_test.py` completed auth → search → create → add; playlist appeared on Jacob's phone. **One thing left:** the next-day auto-refresh durability check — run `check_login.py` (should print OK with no browser). That closes Phase 0 fully.
+- **Phase 1 — in progress.** Library exporter built and working. `taste-profile.md` **v0.1 drafted** from Liked Songs + listening history + interview. Not yet agreed-to by Jacob (that agreement IS the Phase 1 acceptance test).
+
+### What's built and committed (all on `main`)
+- `config.py` — Client ID, redirect URI (`127.0.0.1:8888/callback`), token-cache path, scopes. Env-overridable for future Actions use.
+- `spotify_auth.py` — PKCE login, local callback catcher, token cache, auto-refresh, **scope-aware** (re-prompts if cached login lacks a needed scope). Actions-ready via `SPOTIFY_REFRESH_TOKEN`.
+- `pipe_test.py` — Phase 0 prover.
+- `check_login.py` — no-side-effect auth check (for the durability test).
+- `export_playlists.py` — read-only dump of owned playlists + Liked Songs + top tracks to `seed-playlists/*.txt`.
+- `seed-playlists/` — `liked-songs.txt` (1,214) and `top-tracks.txt` (~15k) are **real**; the per-playlist files are **still empty** pending Jacob's re-run (see below).
+- `taste-profile.md` — v0.1 draft.
+
+### Jacob's TODO when he's back
+1. **Re-run the export** to populate the empty per-playlist files (they're the highest-value, context-labeled signal):
+   `git pull` → `python export_playlists.py` → `git add seed-playlists` → commit → `git push`.
+2. **Run `check_login.py`** (any time after ~an hour / next day) to close Phase 0's durability half.
+3. **Answer the 5 open taste-profile questions** (in `taste-profile.md`, "Open questions"): (a) where the screamo line sits — Bad Omens / Our Last Night have some screamed vocals; (b) is lo-fi/instrumental the right curated substitute for his Endel focus habit; (c) is country driving-only or broader; (d) which buckets become *standing* playlists vs on-demand moods; (e) any over-/under-weighting (e.g. is Morgan Wallen really him).
+4. *(Optional)* delete the "AI DJ — pipe test" playlist from Spotify.
+
+### For the next Claude — what to do once Jacob returns
+- Pull the repo. If the per-playlist `seed-playlists/*.txt` now have tracks, **fold them into the context buckets** in `taste-profile.md` (they map to buckets: `alternative-teen-angst…`→sad-boi, `racing`/`lt-run`/`lit`→workout, `80s-rock`→nostalgia, seasonal ones→vibey, `taylor`→Taylor, etc.).
+- Incorporate his answers to the 5 questions, then get his sign-off → **Phase 1 done**.
+- Then **Phase 2**: build `push_playlist.py` (the resolver — tracklist in → search/match/miss-handling → create/update playlist). Keep it Actions-ready and heavily commented (novice).
+
+### Environment facts (so the next session doesn't rediscover them)
+- Runs on Jacob's Dell (Windows), **PowerShell**, **Python 3.14.6**, **git 2.55**. Repo at `C:\Users\jskra\Documents\music-player`.
+- git identity configured (Jacob Skraba / jskraba0601@gmail.com); GitHub push works via browser auth (Git Credential Manager). Password auth is NOT supported — don't suggest it.
+- Token cached locally in `.spotify_token.json` (gitignored) with full read+write scopes.
+- **This Claude runs in the cloud and cannot execute scripts on the Dell.** Workflow: Claude writes/commits code → Jacob pulls, runs, and pastes terminal output → Claude reacts. Plan for that round-trip.
+- All work lands on `main` (per Section 10 / CLAUDE.md).
+
+### Hard-won technical facts (don't relearn these)
+- **Add-to-playlist endpoint is `/items`** (confirmed live).
+- **Playlist `/items` wraps the track under `"item"`**; the old `"track"` key there is now a boolean flag. Saved/Liked tracks still wrap under `"track"`. Top-tracks are bare track objects. (`export_playlists.py` handles all three.)
+- **`/me/top/tracks` returns ~15k tracks** (deep history, not a top-50) — treat as breadth signal, not a curated list.
+- **`Endel` is Jacob's single most-played artist** (functional focus/sleep ambient) — key insight for focus/downtime buckets.
+- **Liked Songs contains legacy high-school rap** (Hopsin, Krizz Kaliko, Lil Dicky, blackbear, etc.) that Jacob now skips — do NOT treat Liked Songs as current taste wholesale.
 
 ---
 
