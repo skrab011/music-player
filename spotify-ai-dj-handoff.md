@@ -158,6 +158,7 @@ Every script failure prints what failed, which track/call, and the HTTP status i
 - **A. Anthropic API backend:** replace the interactive Claude Code session with a script calling the Messages API — enables one-command playlists outside Code sessions. Costs per-call; needs API key management. Sensible once the loop is proven.
 - **B. Web front-end:** a small local page ("give me a vibe" text box) driving option A. Only worth it if the CLI loop feels clunky in practice.
 - **C. Fallback if Spotify closes Dev Mode further:** revisit the self-hosted route (Navidrome + purchased library + future Pi) or Apple MusicKit ($99/yr developer account — Jacob prefers Apple's artist treatment, so this is not absurd if he'd otherwise return to an Apple Music subscription anyway).
+- **D. Apple Music delivery layer:** full ready-to-execute porting plan written up in **`apple-music-port.md`** (auth split, endpoint mapping, the append-only update-mode gotcha, secrets, code checklist). Deferred 2026-07-09 — Spotify stays primary; the plan keeps the curation brain shared so Apple can be *added* later without forking the taste profile or specs. Cost floor is $99/yr developer **+** an Apple Music sub (no free API tier).
 
 ## 9. Interview the implementing Claude must run before writing any code
 
