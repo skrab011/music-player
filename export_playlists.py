@@ -52,7 +52,15 @@ def _extract_track(item):
     {"track": {...}}. Top-tracks come back as the track object directly.
     Handle both shapes.
     """
-    if isinstance(item, dict) and "track" in item:
+    if not isinstance(item, dict):
+        return item
+    # Playlist items (Feb-2026 shape) wrap the track under "item"; the old
+    # "track" key there is now just a boolean flag. Saved ("Liked") tracks
+    # still wrap the track object under "track". Top-tracks are bare track
+    # objects. Prefer whichever key actually holds a track object.
+    if isinstance(item.get("item"), dict):
+        return item["item"]
+    if isinstance(item.get("track"), dict):
         return item["track"]
     return item
 
