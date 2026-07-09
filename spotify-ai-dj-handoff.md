@@ -42,6 +42,12 @@ Jacob wants a Pandora/Apple Music replacement where an AI generates playlists ta
 
 This section exists because Spotify has repeatedly cut Dev Mode capabilities (Nov 2024, then Feb 2026). The implementing Claude must treat this as ground truth and **re-verify against current docs in Phase 0** — the pattern suggests further cuts are possible.
 
+> **Re-verified 2026-07-09** against Spotify's Feb-2026 migration guide, changelog, and the 2026-02-06 developer blog post. Section 3 holds — the load-bearing endpoints (PKCE auth, `GET /search` max 10, `POST /me/playlists`, playlist item add) are all still available. Drift found, none of it blocking:
+> - **Timeline:** the endpoint cuts for existing apps went fully live **2026-03-09**; the Premium requirement + 5-user cap have applied since **2026-02-11**. No grace period remains — we build against the fully-restricted API.
+> - **Saved/Liked tracks moved:** the old `/me/tracks` surface is consolidated into `GET /me/library` (+ `GET /me/library/contains`, `PUT`/`DELETE /me/library`). Affects Phase 1 taste-seed reading only, not the Phase 0 pipe.
+> - **Explicit filtering effectively unavailable:** the `explicit_content` profile field was removed. Moot given the "allow everything" decision (Section 10) — and it retroactively validates that choice.
+> - **More fields stripped from responses:** `followers`, `external_ids`, `linked_from` (on top of the already-noted `popularity`, `label`, `product`, `email`, `country`). The resolver needs none of them — search returns URI + name + artist, which is sufficient.
+
 **Available and load-bearing:**
 - `GET /search` — resolve tracks. **Limit max is 10 per request** (was 50); default 5. Paginate with `offset`.
 - `POST /me/playlists` — create playlist (the old `POST /users/{id}/playlists` is removed)
