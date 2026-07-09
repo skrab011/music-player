@@ -3,7 +3,7 @@
 **Project:** Personal AI playlist curator ("ai-dj") — Claude curates, Spotify delivers, official app plays
 **Owner:** Jacob (architect, SAI — coding novice, strong domain knowledge)
 **Execution environment:** Claude Code, Windows (Dell Precision 5510)
-**Status:** Phase 0 PASS. Phase 1 COMPLETE (taste-profile v1.0 locked). Phase 2 code built; runtime moved to GitHub Actions; next action is proving it in the cloud (needs the `SPOTIFY_REFRESH_TOKEN` secret set). **See Section 11 — it's the resume-here checkpoint and has the exact next steps.**
+**Status:** Phase 0 PASS. Phase 1 COMPLETE (taste-profile v1.0 locked). **Phase 2 PASS** — the resolver ran in GitHub Actions and scored 25/25 on the acceptance spec (2026-07-09). Next action is first real use: build the 7 standing playlists. **See Section 11 — it's the resume-here checkpoint and has the exact next steps.**
 **Last updated:** 2026-07-09
 
 ---
@@ -121,6 +121,8 @@ Plain-language explanation required for: what PKCE is doing, what a URI vs. ID i
 
 **Acceptance test:** a 25-track list with 2 deliberately misspelled entries produces a playlist with ≥20 correct tracks and a miss report naming the failures. Live/karaoke/cover junk matches < 2.
 
+**Result (2026-07-09): PASS (exceeded).** `push_playlist.py` ran in GitHub Actions (run #2, `29020947104`) against `specs/resolver-test.json` and scored **25/25 matched, all confident, 0 weak, 0 missed.** The fuzzy matcher auto-corrected both deliberate typos (`Imagin Dragons - Radioactve` → Imagine Dragons - Radioactive; `Twenty One Piolts - Stresed Out` → Twenty One Pilots - Stressed Out). No live/karaoke/cover junk. *Final human check still owed:* Jacob eyeballs the "AI DJ — resolver test" playlist on his phone to confirm the track versions are right.
+
 ### Phase 3 — The DJ loop as a Claude Code skill/command
 
 Codify the loop so any session can run it: read `taste-profile.md` → generate tracklist for the prompt → run resolver → handle misses with substitutions → confirm. Add an `update` mode (replace an existing playlist's items rather than creating a new one) for the standing "AI DJ" playlists (see Section 10). Note: the five source playlists Jacob named are **read-only seeds**, not update targets — the update targets are the AI-authored versions I create.
@@ -208,27 +210,24 @@ Answers to the Section 9 interview. These are locked — do not relitigate.
 
 Snapshot of exactly where we stopped, so the next session starts cold with zero re-derivation. **Read this first.**
 
-> **This checkpoint was refreshed 2026-07-09 at the end of a very long session.** Phases 0 and 1 are done; Phase 2 code is built and the runtime has pivoted to GitHub Actions. **The single next action is proving Phase 2 in the cloud — see "DO THIS NEXT."**
+> **This checkpoint was refreshed 2026-07-09 after proving Phase 2 in the cloud.** Phases 0, 1, and 2 are all done. The Actions runtime is live and working end-to-end. **The next action is first real use — build the 7 standing playlists. See "DO THIS NEXT."**
 
 ### Where we are
 - **Phase 0 — PASS (round-trip).** `pipe_test.py` did auth → search → create → add; playlist appeared on Jacob's phone. *Open (minor, non-blocking):* next-day refresh durability check via `check_login.py`.
 - **Phase 1 — COMPLETE.** `taste-profile.md` **locked at v1.0**, Jacob approved ("great profile, no notes"). Built from all 19 labeled playlists + Liked Songs + ~10 recent Apple adds + 2 interview rounds.
-- **Phase 2 — CODE BUILT, NOT YET PROVEN.** `push_playlist.py` (the resolver) is written and unit-tested offline. It has NOT yet run against Jacob's real account. **Runtime decision changed:** we are running it via **GitHub Actions**, not locally (Jacob's Dell isn't always on). All Actions plumbing is built; we just need the auth secret set, then dispatch a run.
+- **Phase 2 — PASS (proven in Actions, 2026-07-09).** `push_playlist.py` ran against Jacob's real account via GitHub Actions (run `29020947104`) and scored **25/25 on `specs/resolver-test.json`** (all confident, 0 weak, 0 missed; both deliberate typos auto-corrected; no junk). The `SPOTIFY_REFRESH_TOKEN` secret is set and the Actions→Spotify auth path works headless. *Owed:* Jacob's phone-eyeball of the "AI DJ — resolver test" playlist.
 
-### ⭐ DO THIS NEXT — prove Phase 2 via Actions
+### ⭐ DO THIS NEXT — first real use (build the 7 standing playlists)
 
-**Blocking step (Jacob):** put a Spotify **refresh token** into the GitHub secret `SPOTIFY_REFRESH_TOKEN`.
-- From a work PC / any machine: run `get_token.py` (stdlib-only, saves nothing), copy the printed token.
-- Or from the Dell: `python print_refresh_token.py`.
-- Paste it at `https://github.com/skrab011/music-player/settings/secrets/actions` → New repository secret → name `SPOTIFY_REFRESH_TOKEN`.
+The pipe is proven; now generate real tracklists and build the standing playlists. For each of the 7 (**Chill · Hype · Heavier · Summer · Workout · Country · Focus**):
+1. Read `taste-profile.md` for what that bucket should contain.
+2. Generate a tracklist and write it to `specs/<name>.json` (see the spec format in `push_playlist.py`'s header; `mode: "create"` first time, `"update"` thereafter).
+3. Commit + push the spec to `main`.
+4. Dispatch **`Build Playlist`** (`.github/workflows/build-playlist.yml`) with `spec = specs/<name>.json` via the GitHub MCP tool `actions_run_trigger` (ref `main`).
+5. Read the run logs (`get_job_logs`); substitute any misses/weak matches in the spec and re-dispatch if needed.
+6. Jacob eyeballs the result on his phone.
 
-**Then (next Claude):**
-1. Dispatch the **`Build Playlist`** workflow (`.github/workflows/build-playlist.yml`) on input `spec = specs/resolver-test.json`. Trigger it via the GitHub MCP tool `actions_run_trigger` (or have Jacob click **Run workflow** in the repo's Actions tab).
-2. Read the run logs (GitHub MCP `get_job_logs` / `actions_get`).
-3. **Verify Phase 2 acceptance:** ≥20/25 tracks matched, misses named clearly, no live/karaoke/cover junk. Have Jacob confirm the **"AI DJ — resolver test"** playlist looks right on his phone.
-4. If misses need fixing, edit the spec and re-dispatch. Once it passes, Phase 2 is done.
-
-**Then — first real use (Phase 2→3):** generate tracklists from `taste-profile.md` and build the 7 approved standing playlists (see below), each as its own `specs/*.json`, dispatched the same way.
+**Dispatch mechanics that are now known-good:** ref `main`, workflow file `build-playlist.yml`, input key `spec`. A healthy run reaches the "Build the playlist" step and prints the per-track match report + a summary line.
 
 ### The ongoing loop (how Claude drives this now)
 Generate tracklist → write `specs/<name>.json` → commit+push to `main` → dispatch `Build Playlist` with that spec path → read logs → substitute misses, re-dispatch if needed. The playlist appears on Jacob's account. He does nothing.
@@ -252,15 +251,20 @@ Generate tracklist → write `specs/<name>.json` → commit+push to `main` → d
 **AI DJ — Chill · Hype · Heavier · Summer · Workout · Country · Focus.** Everything else (nostalgia, seasonal, Taylor) stays on-demand. See `taste-profile.md` for what each contains.
 
 ### Jacob's TODO
-1. **Set the `SPOTIFY_REFRESH_TOKEN` secret** (the blocking step above).
-2. *(Minor)* run `check_login.py` once to close Phase 0's durability half.
-3. *(Optional)* delete the "AI DJ — pipe test" / "AI DJ — resolver test" playlists later.
+1. ~~Set the `SPOTIFY_REFRESH_TOKEN` secret~~ **DONE** (2026-07-09).
+2. ~~Enable GitHub Actions billing~~ **DONE** — added a payment method + $10 Actions spending limit (2026-07-09). This is what unblocked the runners (see hard-won facts).
+3. *(Minor)* run `check_login.py` once to close Phase 0's durability half.
+4. *(Optional)* delete the "AI DJ — pipe test" / "AI DJ — resolver test" playlists later.
 
 ### Environment facts (don't rediscover)
 - **Runtime is GitHub Actions**, triggered by Claude via GitHub MCP. Auth = `SPOTIFY_REFRESH_TOKEN` secret. Actions runners CAN reach Spotify.
 - **The cloud Code sandbox's egress policy BLOCKS `accounts.spotify.com` (403).** So *this Claude cannot do token exchange or run `push_playlist.py` directly* — anything touching Spotify must run on Jacob's machine or in Actions. (This is why the runtime is Actions.)
 - Jacob's Dell: Windows, PowerShell, Python 3.14.6, git 2.55, repo at `C:\Users\jskra\Documents\music-player`, git identity set, push works via browser auth (no passwords). `.spotify_token.json` cached there with full scopes.
 - All work lands on `main`.
+
+### Hard-won operational facts (don't relearn these)
+- **GitHub Actions needs billing set up even for a public repo.** Before a payment method + spending limit existed on the account, dispatched runs were *accepted* (workflow `active`, dispatch returned 204) but **no hosted runner ever attached** — `runner_id` stayed `0`, the job sat `queued`, and GitHub auto-cancelled it at the ~15-minute queue timeout. Symptom to recognize: dispatch works, workflow is active, secret is set, but the job never starts and dies at 15 min. Fix was adding a payment method + a $10 Actions spending limit at `github.com/settings/billing`; the very next dispatch got a runner within ~6 min and ran green.
+- **`github.com/settings/actions` 404s for this account** — not a problem; account-level Actions controls live under billing, not that path.
 
 ### Hard-won technical facts (don't relearn these)
 - **Add-to-playlist endpoint is `/items`** (confirmed). `PUT /playlists/{id}/items` replaces; `POST` appends (batch by 100).
