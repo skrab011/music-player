@@ -246,9 +246,12 @@ Generate tracklist → write `specs/<name>.json` → commit+push to `main` → d
 
 ### Backlog (do at END of build, per Jacob's request)
 - **Save-to-Liked-Songs feature:** add `user-library-modify` scope + a helper so Claude can save tracks into Jacob's Liked Songs directly. He'll grant that permission later.
+- **Matcher blind spot (found building Chill):** a track can match as *confident* while being the wrong *version*. Seen: "Hozier - Cherry Wine" resolved to "Andrew Hozier-Byrne, Arlo Vega - Cherry Wine (Arr. for Guitar)" — a guitar arrangement — because "arr."/"guitar" aren't in `BAD_VERSION_WORDS` and the secondary-artist credit still scored as Hozier. Consider: add arrangement/rendition words to the penalty list, and/or penalize when the candidate has an extra lead artist the query didn't name. **Mitigation until then: always eyeball the matched titles in the run log, not just the match counts.**
 
-### The 7 standing playlists (approved — build after Phase 2 passes)
+### The 7 standing playlists (build progress)
 **AI DJ — Chill · Hype · Heavier · Summer · Workout · Country · Focus.** Everything else (nostalgia, seasonal, Taylor) stays on-demand. See `taste-profile.md` for what each contains.
+- **Chill — BUILT ✅ (2026-07-09).** `specs/chill.json`, 22 tracks, 22/22 confident. First-build shook out the full loop: create → eyeball → 2 substitutions → re-run in **update mode** (replaced in place, no duplicate). Update mode is now proven.
+- **Hype · Heavier · Summer · Workout · Country · Focus — TODO.** Same flow: generate → `specs/<name>.json` (`mode: "create"` first, `"update"` after) → commit to `main` → dispatch → eyeball the matched titles (not just the counts) → substitute → done.
 
 ### Jacob's TODO
 1. ~~Set the `SPOTIFY_REFRESH_TOKEN` secret~~ **DONE** (2026-07-09).
