@@ -1,0 +1,33 @@
+{
+  "name": "AI DJ — resolver test",
+  "description": "Phase 2 acceptance test for push_playlist.py. Safe to delete.",
+  "public": true,
+  "mode": "create",
+  "tracks": [
+    "Jon Bellion - All Time Low",
+    "Fall Out Boy - Centuries",
+    "AJR - Weak",
+    "Twenty One Pilots - Car Radio",
+    "Panic! At The Disco - Hey Look Ma, I Made It",
+    "Glass Animals - Heat Waves",
+    "Tame Impala - The Less I Know The Better",
+    "STARSET - MANIFEST",
+    "Bring Me The Horizon - Ludens",
+    "I Prevail - Hurricane",
+    "Three Days Grace - Animal I Have Become",
+    "Alec Benjamin - Let Me Down Slowly",
+    "Death Cab for Cutie - I Will Follow You into the Dark",
+    "Billie Eilish - when the party's over",
+    "Chappell Roan - Pink Pony Club",
+    "Noah Kahan - Stick Season",
+    "Hozier - Almost (Sweet Music)",
+    "Lady Gaga - Bad Romance",
+    "Dua Lipa - Levitating",
+    "Taylor Swift - august",
+    "Morgan Wallen - Whiskey Glasses",
+    "Zach Bryan - Something in the Orange",
+    "Linkin Park - Numb",
+    "Imagin Dragons - Radioactve",
+    "Twenty One Piolts - Stresed Out"
+  ]
+}
