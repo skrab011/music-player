@@ -34,5 +34,16 @@ TOKEN_CACHE_FILE = os.environ.get("SPOTIFY_TOKEN_CACHE", ".spotify_token.json")
 
 # --- Permissions we ask Spotify for -------------------------------------
 
-# We only ever need to create and edit playlists. Nothing else.
-SCOPES = "playlist-modify-public playlist-modify-private"
+# The access our scripts need. "modify" = create/edit playlists (the DJ
+# loop); "read" = see your existing playlists, Liked Songs, and top tracks
+# (so we can learn your taste in Phase 1). If this list grows, the login
+# code notices your saved login doesn't cover the new items and re-prompts
+# you automatically.
+SCOPES = " ".join([
+    "playlist-modify-public",
+    "playlist-modify-private",
+    "playlist-read-private",
+    "playlist-read-collaborative",
+    "user-library-read",
+    "user-top-read",
+])

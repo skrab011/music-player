@@ -66,8 +66,10 @@ def get_access_token():
 
     tokens = _load_cached_tokens()
 
-    if tokens is None:
-        # First time on this machine — do the full browser login.
+    if tokens is None or not _covers_required_scopes(tokens):
+        # No saved login yet, OR the saved login doesn't grant everything we
+        # now need (e.g. we added read permissions). Do the full browser
+        # login to get fresh, fully-scoped tokens.
         tokens = _interactive_login()
         _save_tokens(tokens)
     elif time.time() >= tokens["expires_at"] - 60:
@@ -77,6 +79,12 @@ def get_access_token():
         _save_tokens(tokens)
 
     return tokens["access_token"]
+
+
+def _covers_required_scopes(tokens):
+    """True if the saved login was granted every permission config asks for."""
+    granted = set((tokens.get("scope") or "").split())
+    return set(SCOPES.split()).issubset(granted)
 
 
 # --------------------------------------------------------------------- #
@@ -211,10 +219,12 @@ def _refresh(refresh_token, previous=None):
             f"in fresh.\n  HTTP {resp.status_code}: {resp.text}"
         )
     body = resp.json()
-    # Spotify doesn't always send a new refresh token on refresh; if it
-    # doesn't, keep reusing the one we already have.
+    # Spotify doesn't always resend the refresh token or scope on a refresh;
+    # if it doesn't, keep reusing what we already had.
     if "refresh_token" not in body:
         body["refresh_token"] = refresh_token
+    if "scope" not in body and previous:
+        body["scope"] = previous.get("scope", "")
     return _tokens_from_response(body)
 
 
@@ -223,4 +233,5 @@ def _tokens_from_response(body):
         "access_token": body["access_token"],
         "refresh_token": body["refresh_token"],
         "expires_at": time.time() + body.get("expires_in", 3600),
+        "scope": body.get("scope", ""),
     }
