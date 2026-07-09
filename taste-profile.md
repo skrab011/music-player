@@ -3,53 +3,69 @@
 **What this is:** the persistent memory the AI DJ uses to curate playlists that
 sound like *you*. Claude maintains it; it grows as you give feedback.
 
-**Status:** DRAFT v0.3 (2026-07-09). Built from your 19 exported playlists, Liked
-Songs (1,214), deep history (~15k), and interview answers — now including the
-round of answers that resolved the screamo line, focus lane, and country scope.
-**Pending:** (a) Jacob's full read-through for final sign-off; (b) ~10 recent
-Apple Music adds not yet in Spotify (his freshest taste — to be folded in).
+**Status:** DRAFT v0.4 (2026-07-09). Built from your Liked Songs, listening
+history, 19 exported playlists, ~10 recent Apple Music adds, and two rounds of
+interview. Only thing left before it's "locked": your final read-through.
 
 **How to read this:** skim it and tell me where it's wrong. Anything with a ❓ is
 a live question.
 
 ---
 
+## Reading your signal (how much to trust each source)
+
+Jacob curates by **liking songs**, not by building playlists ("I'm bad at making
+playlists"). So the trust order is:
+
+1. **Liked Songs + `liked-from-radio` + recent Apple adds** — what you actually
+   love. Primary signal.
+2. **Labeled playlists** (`teen-angst`, `ordinary-man`, `vibey-shit`, etc.) — good
+   for *what vibe belongs in which bucket*, but NOT treated as carefully-curated
+   favorites. Use them to define lanes, not to rank artists.
+3. **`top-tracks` / broad history** — breadth and reach, not intent.
+
+---
+
 ## The core of you, in one paragraph
 
-You live in emotionally-direct, cathartic rock and its neighbors. Three energy
-zones: **anthemic alt-pop-rock** for hype/catharsis (Jon Bellion, Fall Out Boy,
-AJR, Twenty One Pilots, Panic!), **harder melodic rock / metalcore** when you
-want it heavier (Bring Me The Horizon, I Prevail, STARSET, Three Days Grace), and
-**introspective singer-songwriter** to wind down (Alec Benjamin, moody Billie,
-Death Cab). Around that: a **current indie-pop/summer** streak (Chappell Roan,
-Sabrina Carpenter, Noah Kahan), **country** as a broad go-to (Morgan Wallen, Zach
-Bryan), **pop with attitude** (Gaga, Dua, Taylor's folklore era), and two
-**nostalgia** pockets (80s hair metal; 2000s alt-rock). Focus time is wordless
-and chill — lo-fi, instrumental, trip hop, downtempo. Rap is narrow and
-situational — a few named artists, plus hype-rap for workouts only.
+You live in emotionally-direct, cathartic rock and its neighbors. Energy zones:
+**anthemic alt-pop-rock** for hype/catharsis (Jon Bellion, Fall Out Boy, AJR,
+Twenty One Pilots, Panic!), **harder melodic rock / metalcore** when heavier
+(Bring Me The Horizon, I Prevail, STARSET, Three Days Grace), **psych/indie-pop**
+(Glass Animals, Tame Impala, GROUPLOVE), and **introspective singer-songwriter**
+to wind down (Alec Benjamin, moody Billie, Death Cab). Around that: **current
+indie-pop/summer** (Chappell Roan, Sabrina Carpenter, Noah Kahan), **country** as
+a broad go-to (Morgan Wallen, Zach Bryan), **pop with attitude** (Gaga, Dua,
+Taylor's folklore era), and two **nostalgia** pockets (80s hair metal; 2000s
+alt-rock). Focus/chill is lo-fi, trip hop, and downtempo — mostly wordless, but
+soft atmospheric vocals fit. Rap is narrow and situational.
 
 ---
 
 ## Anchor artists, by lane
 
-**Anthemic alt-pop-rock (hype/catharsis — your `teen-angst` core)**
+**Anthemic alt-pop-rock (hype/catharsis)**
 Jon Bellion · Fall Out Boy · AJR · Twenty One Pilots · Panic! At The Disco ·
 Marianas Trench · The All-American Rejects · All Time Low · New Politics ·
 Highly Suspect · WALK THE MOON · Neon Trees · mgk
 
-**Harder melodic rock / metalcore (`ordinary-man` lane)**
+**Harder melodic rock / metalcore**
 STARSET · Bring Me The Horizon · I Prevail · A Day To Remember · Three Days Grace ·
 Papa Roach · Falling In Reverse · Asking Alexandria · Sleeping With Sirens ·
 Bad Omens · Our Last Night · Halestorm · Green Day · blink-182 · Linkin Park · YUNGBLUD
 
-**Introspective singer-songwriter / chill (`vibey` lane)**
+**Psych / indie-pop**
+Glass Animals *(top anchor)* · Tame Impala · GROUPLOVE · Imagine Dragons ·
+Portugal. The Man · Cage The Elephant
+
+**Introspective singer-songwriter / chill**
 Alec Benjamin · Billie Eilish (moody era) · Death Cab for Cutie · Livingston ·
 gnash · Birdy · Lord Huron · Teddy Swims · Arrested Youth
 
-**Current indie-pop / summer (`surf-crush` lane)**
+**Current indie-pop / summer**
 Chappell Roan · Sabrina Carpenter · Noah Kahan · Hozier · Benson Boone ·
 Gracie Abrams · Olivia Rodrigo · The Neighbourhood · Rainbow Kitten Surprise ·
-Dominic Fike · Zach Bryan
+Dominic Fike · Zach Bryan · Alex Warren
 
 **Pop (with edge)**
 Lady Gaga · Dua Lipa · Taylor Swift *(folklore/evermore lean)* · Halsey · The Chainsmokers
@@ -58,13 +74,15 @@ Lady Gaga · Dua Lipa · Taylor Swift *(folklore/evermore lean)* · Halsey · Th
 Morgan Wallen · Zach Bryan · Ella Langley · Cooper Alan
 
 **Rap — narrow + situational**
-Anytime: Kanye West · Eminem · mgk · NF. Workout-only hype: DMX · Fort Minor ·
-Hollywood Undead. *(Everything else — see Do-Not-Play.)*
+Anytime: Kanye West · Eminem · mgk · NF. Melodic/emo-leaning rap is welcome:
+blackbear · grandson · Lil Dicky · Ryan Caraveo. Workout-only hype: DMX ·
+Fort Minor · Hollywood Undead. *(Hard/technical/horrorcore rap is out — see Do-Not-Play.)*
 
-**Focus / downtime (wordless)**
+**Focus / downtime**
 Lo-fi, instrumental (Nujabes, "lofi cafe" lane), trip hop, and chill downtempo
-electronic — likely **lo-fi / melodic / downtempo house** (the "house something").
-❓ Confirm the house sub-genre name when you hear it.
+electronic. Mostly wordless, but **soft atmospheric vocals fit** (e.g., Björk –
+"Jóga", which lives in your trip-hop playlist). ❓ The "house something" sub-genre
+name is still TBD — likely lo-fi/melodic/downtempo house.
 
 ---
 
@@ -74,78 +92,70 @@ electronic — likely **lo-fi / melodic / downtempo house** (the "house somethin
 - Emotional legibility: lyrics you feel and sing; not abstract or ironic
 - Melodic even when heavy — screams are fine *in service of* a melodic song
 - The stripped/acoustic version of a loud song hits a real spot for you
-- For focus: no words, no drama — texture and groove over hooks
+- For focus: texture and groove over hooks; soft vocals OK, drama not
 
 ---
 
 ## Context buckets
 
-| Bucket | Vibe | Sounds like (from your playlists) | Existing playlist |
+| Bucket | Vibe | Sounds like | Existing playlist |
 |---|---|---|---|
-| **Hype / catharsis** | anthemic, sing-at-the-top-of-lungs | Jon Bellion, Fall Out Boy, AJR, Panic! | `alternative-teen-angst…` |
-| **Harder / heavier** | melodic metalcore, aggressive but tuneful | STARSET, BMTH, I Prevail, ADTR, Papa Roach | `ordinary-man` |
+| **Hype / catharsis** | anthemic, sing-along | Jon Bellion, Fall Out Boy, AJR, Panic! | `alternative-teen-angst…` |
+| **Harder / heavier** | melodic metalcore, tuneful-aggressive | STARSET, BMTH, I Prevail, ADTR | `ordinary-man` |
 | **Chill / winding down** | introspective, low-key | Alec Benjamin, moody Billie, Death Cab | `vibey-shit` |
-| **Summer / current indie-pop** | bright, breezy, now | Chappell Roan, Sabrina Carpenter, Noah Kahan | `surf-crush-summer-night` |
+| **Summer / indie-pop** | bright, breezy, psych-tinged | Chappell Roan, Glass Animals, Noah Kahan | `surf-crush-summer-night` |
 | **Workout / running** | high-BPM, driving | Avicii, Måneskin, Eminem, DMX, Three Days Grace | `racing`, `lt-run` |
-| **Country** | broad go-to; great for driving | Morgan Wallen, Zach Bryan, Ella Langley | *(in `lit`/history)* |
-| **Work / focus** | wordless, steady, groovy | lo-fi, instrumental, trip hop, downtempo house | *(none yet)* |
-| **Rainy day** | cozy-melancholy | Birdy, Death Cab, lo-fi | *(none yet)* |
-| **80s hair metal** | nostalgia | Mötley Crüe, Def Leppard, GnR, Bon Jovi | `80s-rock` |
-| **2000s alt-rock throwback** | nostalgia | Killers, Evanescence, Yellowcard, blink-182 | `idk` |
+| **Country** | broad go-to; great for driving | Morgan Wallen, Zach Bryan, Ella Langley | — |
+| **Focus** | wordless/soft, groovy | lo-fi, trip hop, downtempo house, Björk-soft | — |
+| **Rainy day** | cozy-melancholy | Birdy, Death Cab, lo-fi | — |
+| **80s hair metal** | nostalgia | Mötley Crüe, Def Leppard, GnR | `80s-rock` |
+| **2000s alt-rock** | nostalgia | Killers, Evanescence, Yellowcard, blink-182 | `idk` |
 | **Taylor (folklore era)** | introspective indie-folk | folklore/evermore | `taylor` |
-| **Christmas (Dec only)** | holiday | Lindsey Stirling instrumental, etc. | `christmas-2023` |
+| **Christmas (Dec only)** | holiday | Lindsey Stirling instrumental | `christmas-2023` |
 
-**Standing vs. on-demand:** TBD in Phase 3. Likely starter set of *standing*
-(auto-updated) playlists: Chill, Hype, Heavier, Summer, Workout, County Drive,
-Focus. Nostalgia + seasonal buckets stay on-demand. Jacob to confirm then.
+### Standing playlists (APPROVED — build these in Phase 2)
+
+The auto-updated "AI DJ —" playlists we'll create and maintain:
+**AI DJ — Chill · AI DJ — Hype · AI DJ — Heavier · AI DJ — Summer ·
+AI DJ — Workout · AI DJ — Country · AI DJ — Focus**
+
+Everything else (nostalgia, seasonal, Taylor) stays on-demand. ❓ Happy with these
+7 names?
 
 ---
 
 ## Do-Not-Play (hard nos)
 
-- **Pure screamo / relentless-breakdown metal.** Calibration: **Of Mice & Men is
-  too far** — that's the ceiling. Melodic metalcore with screamed *moments* is in
-  (BMTH, I Prevail, Falling In Reverse); constant-screaming/no-chorus is out.
-  Judge borderline-heavy bands **track by track** against the OM&M line.
-- **Most rap** — skip by default, EXCEPT the named anchors (Kanye, Eminem, mgk,
-  NF) any time, and hype-rap (DMX, Fort Minor, Hollywood Undead) in workouts.
-  Do **not** pull legacy underground/emo-rap: Hopsin, Krizz Kaliko, Lil Dicky,
-  blackbear, sKitz Kraven, Ryan Caraveo, Tech N9ne, grandson, and similar.
+- **Pure screamo / relentless-breakdown metal.** Ceiling: **Of Mice & Men is too
+  far.** Melodic metalcore with screamed *moments* is in (BMTH, I Prevail,
+  Falling In Reverse); constant-screaming/no-chorus is out. Judge borderline bands
+  **track by track** against the OM&M line.
+- **Hard / technical / horrorcore rap** — out: Hopsin, Krizz Kaliko, sKitz Kraven,
+  Tech N9ne, and similar. (Melodic/emo rap like blackbear, grandson, Lil Dicky,
+  Ryan Caraveo is OK — see the rap lane.)
 - **Christian / worship** — avoid, EXCEPT Christmas music during the Christmas season.
 - **Classical** — generally skip.
 
 ---
 
-## Notes on the data (so future-me remembers)
-
-- **Endel was removed** — it topped the raw play history but Jacob doesn't even
-  know what it is; it was algorithmic app noise, not taste. Focus lane is built
-  from genres, not from that signal.
-- `lit` (136) and `spotifyme` are **older/party-era** playlists heavy with rap
-  Jacob now skips — historical range, not current taste.
-- `liked-from-radio` and `top-tracks` are broad discovery/history — breadth, not intent.
-- The **labeled, curated** playlists (`teen-angst`, `ordinary-man`, `vibey-shit`,
-  `surf-crush`, `80s-rock`) are the highest-signal for *current* taste.
-
----
-
 ## Open questions (nearly closed)
 
-1. ~~Screamo line~~ — **resolved:** OM&M is too far; melodic-with-screams is in.
-2. ~~Focus lane~~ — **resolved:** lo-fi / instrumental / trip hop / downtempo house
-   (confirm the house sub-genre name later).
-3. ~~Country scope~~ — **resolved:** broad go-to, not driving-only.
-4. **Standing vs on-demand** — deferred to Phase 3 (starter set proposed above).
+1. ~~Screamo line~~ ✅ OM&M is the ceiling.
+2. ~~Focus lane~~ ✅ lo-fi/instrumental/trip hop/downtempo; soft vocals OK.
+   *(House sub-genre name still TBD — no rush.)*
+3. ~~Country scope~~ ✅ broad go-to.
+4. ~~Standing set~~ ✅ 7 playlists approved (confirm the names).
 5. **Final read-through** — Jacob to skim the whole profile and confirm it's him.
-6. **~10 Apple Music adds** — Jacob to paste; fold in as freshest taste.
 
 ---
 
 ## Feedback log (additive — never rewritten)
 
 - _(2026-07-09)_ v0.1 — drafted from Liked Songs + history + interview.
-- _(2026-07-09)_ v0.2 — rebuilt after importing all 19 labeled playlists; split
-  hype / heavier / chill / summer lanes; added nostalgia + workout-rap nuances.
-- _(2026-07-09)_ v0.3 — folded in interview round 2: removed Endel, set the focus
-  lane to lo-fi/instrumental/trip hop/downtempo house, broadened country, and
-  fixed the screamo ceiling at Of Mice & Men.
+- _(2026-07-09)_ v0.2 — rebuilt after importing all 19 labeled playlists.
+- _(2026-07-09)_ v0.3 — removed Endel; set focus lane; screamo ceiling; broadened country.
+- _(2026-07-09)_ v0.4 — folded in ~10 recent Apple adds (Glass Animals surges;
+  psych/indie-pop lane added); **flipped signal priority to likes over labeled
+  playlists**; softened focus lane to allow atmospheric vocals (Björk); re-allowed
+  melodic/emo rap (blackbear, grandson, Lil Dicky, Ryan Caraveo); locked the
+  7-playlist standing set.
