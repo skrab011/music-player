@@ -51,7 +51,7 @@ This section exists because Spotify has repeatedly cut Dev Mode capabilities (No
 **Available and load-bearing:**
 - `GET /search` — resolve tracks. **Limit max is 10 per request** (was 50); default 5. Paginate with `offset`.
 - `POST /me/playlists` — create playlist (the old `POST /users/{id}/playlists` is removed)
-- `POST /playlists/{id}/items` — add tracks (renamed from `/tracks`)
+- `POST /playlists/{id}/items` — add tracks (renamed from `/tracks`; **confirmed live 2026-07-09** by the Phase 0 pipe test — `/items` returned 201, not `/tracks`)
 - `PUT /playlists/{id}/items`, `DELETE /playlists/{id}/items` — reorder/replace/remove
 - `GET /me/playlists`, `GET /playlists/{id}/items` — read own playlists (items only returned for playlists the user owns/collaborates on)
 - `GET /me` — profile (note: `product`, `email`, `country` fields removed)
@@ -100,6 +100,8 @@ This section exists because Spotify has repeatedly cut Dev Mode capabilities (No
 **Build:** one bare-bones script: PKCE auth (opens browser, catches callback locally, caches token) → search one hardcoded track → create a playlist named "AI DJ — pipe test" → add the track.
 
 **Acceptance test:** playlist appears in Jacob's Spotify iPhone app with the correct track, within a minute, without touching the Spotify UI. Token refresh works on a second run a day later without re-login.
+
+**Result (2026-07-09):** Round-trip **PASS**. `pipe_test.py` completed auth → search → create → add on Jacob's Dell (Windows, Python 3.14.6); the "AI DJ — pipe test" playlist appeared in his phone's Spotify app with the Nujabes track. Confirmed the add endpoint is `/items`. **Durability half still pending** — the next-day auto-refresh (no re-login) is verified by running `check_login.py` after the access token has expired (>1h / next day). Once that passes without opening a browser, Phase 0 is fully closed.
 
 **If this phase fails** (e.g., Spotify has restricted app creation further): STOP. The fallback conversation is Section 8, option C.
 
