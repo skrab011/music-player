@@ -2,7 +2,7 @@
   "name": "AI DJ — Workout",
   "description": "High-BPM, driving — rock and hype rap for running and lifting. Maintained by the AI DJ.",
   "public": true,
-  "mode": "create",
+  "mode": "update",
   "tracks": [
     "Eminem - Till I Collapse",
     "Eminem - Lose Yourself",
@@ -16,7 +16,7 @@
     "Måneskin - Beggin'",
     "Three Days Grace - Riot",
     "Kanye West - Stronger",
-    "machine gun kelly - Till I Die",
+    "mgk - Till I Die",
     "Linkin Park - Bleed It Out",
     "The White Stripes - Seven Nation Army",
     "Imagine Dragons - Thunder",

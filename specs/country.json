@@ -2,7 +2,7 @@
   "name": "AI DJ — Country",
   "description": "A broad country go-to — great for driving. Maintained by the AI DJ.",
   "public": true,
-  "mode": "create",
+  "mode": "update",
   "tracks": [
     "Morgan Wallen - Whiskey Glasses",
     "Morgan Wallen - Last Night",

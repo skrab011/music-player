@@ -2,7 +2,7 @@
   "name": "AI DJ — Heavier",
   "description": "Melodic metalcore and tuneful-aggressive hard rock — screamed moments in service of a chorus. Maintained by the AI DJ.",
   "public": true,
-  "mode": "create",
+  "mode": "update",
   "tracks": [
     "STARSET - MANIFEST",
     "STARSET - My Demons",

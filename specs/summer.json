@@ -2,7 +2,7 @@
   "name": "AI DJ — Summer",
   "description": "Bright, breezy, psych-tinged indie-pop. Maintained by the AI DJ.",
   "public": true,
-  "mode": "create",
+  "mode": "update",
   "tracks": [
     "Glass Animals - Heat Waves",
     "Glass Animals - Gooey",

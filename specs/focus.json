@@ -2,7 +2,7 @@
   "name": "AI DJ — Focus",
   "description": "Wordless and soft — lo-fi, trip hop, downtempo. Texture and groove over hooks. Maintained by the AI DJ.",
   "public": true,
-  "mode": "create",
+  "mode": "update",
   "tracks": [
     "Nujabes - Feather",
     "Nujabes - Aruarian Dance",
@@ -24,7 +24,7 @@
     "Little People - Start Shootin'",
     "Boards of Canada - Roygbiv",
     "Jinsang - affection.",
-    "Idealism - Both of Us",
+    "Emancipator - Greenland",
     "Tycho - Dive"
   ]
 }

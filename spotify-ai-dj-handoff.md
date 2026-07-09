@@ -250,8 +250,16 @@ Generate tracklist → write `specs/<name>.json` → commit+push to `main` → d
 
 ### The 7 standing playlists (build progress)
 **AI DJ — Chill · Hype · Heavier · Summer · Workout · Country · Focus.** Everything else (nostalgia, seasonal, Taylor) stays on-demand. See `taste-profile.md` for what each contains.
-- **Chill — BUILT ✅ (2026-07-09).** `specs/chill.json`, 22 tracks, 22/22 confident. First-build shook out the full loop: create → eyeball → 2 substitutions → re-run in **update mode** (replaced in place, no duplicate). Update mode is now proven.
-- **Hype · Heavier · Summer · Workout · Country · Focus — TODO.** Same flow: generate → `specs/<name>.json` (`mode: "create"` first, `"update"` after) → commit to `main` → dispatch → eyeball the matched titles (not just the counts) → substitute → done.
+**ALL 7 BUILT ✅ (2026-07-09).** Each is `specs/<name>.json`, 22 tracks, all now `mode: "update"` (so re-runs replace in place). Per-playlist:
+- **Chill** — 22/22 confident. Shook out the full loop (2 substitutions, then update-mode re-run).
+- **Hype** — 22/22 in playlist. (mgk credit tidied in spec.)
+- **Heavier** — 22/22 confident. Stayed under the OM&M screamo ceiling.
+- **Summer** — 22/22 confident.
+- **Workout** — 22/22 in playlist. (mgk credit tidied in spec.)
+- **Country** — 22/22 confident. ("One Beer" resolves to the HIXTAPE original — correct.)
+- **Focus** — 22/22, after one substitution: "Idealism - Both of Us" resolved to the wrong song → swapped to "Emancipator - Greenland" and re-run in update mode.
+
+**Ongoing maintenance:** edit the relevant `specs/<name>.json`, commit to `main`, dispatch `Build Playlist` with that spec (already `update` mode → replaces in place). Always eyeball matched *titles* in the log, not just counts.
 
 ### Jacob's TODO
 1. ~~Set the `SPOTIFY_REFRESH_TOKEN` secret~~ **DONE** (2026-07-09).

@@ -2,7 +2,7 @@
   "name": "AI DJ — Hype",
   "description": "Anthemic alt-pop-rock, sing-along catharsis. Maintained by the AI DJ.",
   "public": true,
-  "mode": "create",
+  "mode": "update",
   "tracks": [
     "Jon Bellion - All Time Low",
     "Fall Out Boy - Centuries",
@@ -25,6 +25,6 @@
     "Highly Suspect - My Name Is Human",
     "GROUPLOVE - Tongue Tied",
     "Imagine Dragons - Believer",
-    "machine gun kelly - bloody valentine"
+    "mgk - bloody valentine"
   ]
 }
