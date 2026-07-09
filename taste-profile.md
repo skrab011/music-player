@@ -3,118 +3,143 @@
 **What this is:** the persistent memory the AI DJ uses to curate playlists that
 sound like *you*. Claude maintains it; it grows as you give feedback.
 
-**Status:** DRAFT v0.1 (2026-07-09). Built from your Liked Songs (1,214 tracks)
-and deep listening history (~15k tracks via top-tracks), plus your interview
-answers. **Not yet incorporated:** your context-labeled playlists (80s-rock,
-teen-angst, racing, etc.) — those were empty in the first export and are being
-re-pulled. Sections that will sharpen once those arrive are marked ⏳.
+**Status:** DRAFT v0.2 (2026-07-09). Now built from your **19 exported playlists**
+plus Liked Songs (1,214) and deep history (~15k), plus interview answers. This
+version is much sharper than v0.1 because the labeled playlists revealed distinct
+lanes the raw dumps couldn't. **Still open:** the questions at the bottom.
 
 **How to read this:** skim it and tell me where it's wrong. It's meant to be
-argued with, not accepted. Anything with a ❓ is a real question for you.
+argued with. Anything with a ❓ is a real question for you.
 
 ---
 
 ## The core of you, in one paragraph
 
-Emotionally-direct rock is your home base — the Linkin Park / emo / alt / pop-punk
-/ post-hardcore lineage, heavy on catharsis and big choruses. Around that orbit
-three satellites: **emotional singer-songwriter / "sad boi"** acoustic (Alec
-Benjamin, Livingston, gnash), **mainstream pop** with attitude (Gaga, Dua Lipa,
-Taylor, Halsey), and — the data's surprise — **modern country** for driving
-(Morgan Wallen, Zach Bryan). For focus and downtime you switch entirely to
-**wordless functional ambient** (Endel is your single most-played thing). Rap is
-narrow and intentional: a few named artists only, *not* the hip-hop that fills
-your older Liked Songs.
+You live in emotionally-direct, cathartic rock and its neighbors. Three energy
+zones: **anthemic alt-pop-rock** for hype/catharsis (Jon Bellion, Fall Out Boy,
+AJR, Twenty One Pilots, Panic!), **harder melodic rock / metalcore** when you
+want it heavier (Bring Me The Horizon, I Prevail, STARSET, Three Days Grace), and
+**introspective singer-songwriter** to wind down (Alec Benjamin, moody Billie,
+Death Cab). Around that: a **current indie-pop/summer** streak (Chappell Roan,
+Sabrina Carpenter, Noah Kahan), **country for driving** (Morgan Wallen, Zach
+Bryan), **pop with attitude** (Gaga, Dua, Taylor's folklore era), and two
+**nostalgia** pockets (80s hair metal; 2000s alt-rock). Focus time is wordless
+ambient. Rap is narrow and situational — a few named artists, plus hype-rap for
+workouts only.
 
 ---
 
 ## Anchor artists, by lane
 
-**Emo / alt / pop-punk / post-hardcore rock** (your core)
-Linkin Park · YUNGBLUD · STARSET · Three Days Grace · Halestorm · Twenty One
-Pilots · Green Day · Our Last Night · Bad Omens · Puddle of Mudd · Panic! At The
-Disco · Fall Out Boy · NOTHING MORE · VOILÀ · mgk
+**Anthemic alt-pop-rock (hype/catharsis — your `teen-angst` core)**
+Jon Bellion · Fall Out Boy · AJR · Twenty One Pilots · Panic! At The Disco ·
+Marianas Trench · The All-American Rejects · All Time Low · New Politics ·
+Highly Suspect · WALK THE MOON · Neon Trees · mgk
 
-**Emotional singer-songwriter / "sad boi" / acoustic**
-Alec Benjamin · Livingston · gnash · Death Cab for Cutie · Birdy · Lord Huron ·
-Teddy Swims · Arrested Youth
+**Harder melodic rock / metalcore (`ordinary-man` lane)**
+STARSET · Bring Me The Horizon · I Prevail · A Day To Remember · Three Days Grace ·
+Papa Roach · Falling In Reverse · Asking Alexandria · Sleeping With Sirens ·
+Bad Omens · Our Last Night · Halestorm · Green Day · blink-182 · Linkin Park · YUNGBLUD
+
+**Introspective singer-songwriter / chill (`vibey` lane)**
+Alec Benjamin · Billie Eilish (moody era) · Death Cab for Cutie · Livingston ·
+gnash · Birdy · Lord Huron · Teddy Swims · Arrested Youth
+
+**Current indie-pop / summer (`surf-crush` lane)**
+Chappell Roan · Sabrina Carpenter · Noah Kahan · Hozier · Benson Boone ·
+Gracie Abrams · Olivia Rodrigo · The Neighbourhood · Rainbow Kitten Surprise ·
+Dominic Fike · Zach Bryan
 
 **Pop (with edge)**
-Lady Gaga · Dua Lipa · Taylor Swift · Halsey · The Chainsmokers · Ed Sheeran
+Lady Gaga · Dua Lipa · Taylor Swift *(folklore/evermore lean)* · Halsey · The Chainsmokers
 
-**Modern country (mostly a driving thing)** ⏳
+**Modern country (mostly driving)**
 Morgan Wallen · Zach Bryan · Ella Langley · Cooper Alan
 
-**Rap — the approved short list ONLY**
-Kanye West · Eminem · mgk · NF
-*(These are in. The rest of the rap in your Liked Songs is not — see Do-Not-Play.)*
+**Rap — narrow + situational**
+Anytime: Kanye West · Eminem · mgk · NF. Workout-only hype: DMX · Fort Minor ·
+Hollywood Undead. *(Everything else — see Do-Not-Play.)*
 
-**Functional ambient (focus / sleep / rainy day)**
-Endel-style generative soundscapes. For curated versions I'd reach for lo-fi and
-instrumental — Nujabes and the "lofi cafe" lane you already keep, plus ambient/
-instrumental (think Tycho, Ólafur Arnalds, Explosions in the Sky). ❓ Right lane?
+**Functional ambient (focus/sleep)** — Endel-style. Curated substitute: lo-fi /
+instrumental (Nujabes, "lofi cafe" lane, ambient). ❓ still confirming this lane.
 
 ---
 
 ## Sonic descriptors (what you reach for)
 
-- Catharsis: songs that build to a release — big drops, belted choruses, key changes
-- Emotional legibility: lyrics you can feel and sing; not abstract or ironic
-- Melodic even when heavy — clean/melodic vocals over screamed ones
-- A soft spot for the acoustic/stripped version of an otherwise loud song
+- Catharsis and big anthemic choruses — songs that build to a release
+- Emotional legibility: lyrics you feel and sing; not abstract or ironic
+- Melodic even when heavy — you tolerate screams *in service of* a melodic song
+- The stripped/acoustic version of a loud song hits a real spot for you
 - For focus: no words, no drama — texture over hooks
 
 ---
 
 ## Context buckets
 
-These map to how you actually listen (your words) and to playlists you already
-keep. Contents get sharper once the labeled playlists finish importing ⏳.
+Mapped to how you listen (your words) and the playlists you actually keep.
 
-| Bucket | Vibe | Leans on | Your existing playlist |
+| Bucket | Vibe | Sounds like (from your playlists) | Existing playlist |
 |---|---|---|---|
-| **Work / focus** | wordless, steady, non-distracting | ambient, lo-fi, instrumental (Endel-adjacent) | ⏳ |
-| **Relaxing / winding down** | low-key, warm | acoustic sad-boi, mellow ambient | ⏳ |
-| **Rainy day** | introspective, cozy-melancholy | Birdy, Death Cab, ambient | ⏳ |
-| **Sad boi** | in-your-feelings | Alec Benjamin, Livingston, gnash, emo ballads | `alternative-teen-angst…` ⏳ |
-| **Cooking** | upbeat, not frantic | pop, feel-good rock | ⏳ |
-| **County drive** | windows-down country | Morgan Wallen, Zach Bryan, Ella Langley | ⏳ |
-| **Running / workout** | high-BPM, driving | post-hardcore, hype rock, some rap | `racing`, `lt-run`, `lit` ⏳ |
-| **80s rock** | nostalgia set | classic rock/pop | `80s-rock` ⏳ |
-| **Christmas (Dec only)** | holiday | Christmas music | `christmas-2023` ⏳ |
+| **Hype / catharsis** | anthemic, sing-at-the-top-of-lungs | Jon Bellion, Fall Out Boy, AJR, Panic! | `alternative-teen-angst…` |
+| **Harder / heavier** | melodic metalcore, aggressive but tuneful | STARSET, BMTH, I Prevail, ADTR, Papa Roach | `ordinary-man` |
+| **Chill / winding down** | introspective, low-key | Alec Benjamin, moody Billie, Death Cab | `vibey-shit` |
+| **Summer / current indie-pop** | bright, breezy, now | Chappell Roan, Sabrina Carpenter, Noah Kahan | `surf-crush-summer-night` |
+| **Workout / running** | high-BPM, driving | Avicii, Måneskin, Eminem, DMX, Three Days Grace | `racing`, `lt-run` |
+| **County drive** | windows-down country | Morgan Wallen, Zach Bryan, Ella Langley | *(in `lit`/history)* |
+| **Work / focus** | wordless, steady | ambient, lo-fi (Endel-adjacent) | *(none — Endel app)* |
+| **Rainy day** | cozy-melancholy | Birdy, Death Cab, ambient | *(none yet)* |
+| **80s hair metal** | nostalgia | Mötley Crüe, Def Leppard, GnR, Bon Jovi | `80s-rock` |
+| **2000s alt-rock throwback** | nostalgia | Killers, Evanescence, Yellowcard, blink-182 | `idk` |
+| **Taylor (folklore era)** | introspective indie-folk | folklore/evermore | `taylor` |
+| **Christmas (Dec only)** | holiday | Lindsey Stirling instrumental, etc. | `christmas-2023` |
 
-❓ Which of these do you actually want as *standing* AI DJ playlists (the ones I
-keep updated), vs. one-off "make me something" moods?
+❓ Which of these become *standing* AI DJ playlists (kept updated) vs. one-off moods?
 
 ---
 
 ## Do-Not-Play (hard nos)
 
-- **Screamo / unclean-vocal metal** — no. ❓ Where's the exact line? You listen to
-  Bad Omens and Our Last Night, which have *some* screamed vocals. Are those OK
-  because they're mostly melodic, or should I avoid their heavier tracks too?
-- **Most rap** — skip by default, *except* the four named anchors (Kanye, Eminem,
-  mgk, NF). Specifically do **not** pull from the legacy hip-hop in your Liked
-  Songs: Hopsin, Krizz Kaliko, Lil Dicky, blackbear, sKitz Kraven, Ryan Caraveo,
-  grandson, and similar. That's high-school-era, not current you.
-- **Christian / worship** — avoid, with **one exception**: Christmas music during
-  the Christmas season is fine.
-- **Classical** — generally skip; you'd pass on it more often than not.
+- **Pure screamo / relentless-breakdown metal** — no. BUT your `ordinary-man`
+  playlist shows you *do* enjoy melodic metalcore with screamed moments (BMTH,
+  I Prevail, Falling In Reverse, even Slipknot). So the rule is **"screams are
+  fine if the song is fundamentally melodic; avoid the constant-screaming,
+  no-chorus stuff."** ❓ Confirm that's the right line — and name a band that's
+  *too far* so I can calibrate.
+- **Most rap** — skip by default, EXCEPT the named anchors (Kanye, Eminem, mgk,
+  NF) any time, and hype-rap (DMX, Fort Minor, Hollywood Undead) in workouts.
+  Do **not** pull the legacy underground/emo-rap from your older playlists:
+  Hopsin, Krizz Kaliko, Lil Dicky, blackbear, sKitz Kraven, Ryan Caraveo,
+  Tech N9ne, grandson, and similar.
+- **Christian / worship** — avoid, EXCEPT Christmas music during the Christmas season.
+- **Classical** — generally skip.
+
+---
+
+## Notes on the data (so future-me remembers)
+
+- `lit` (136 tracks) and `spotifyme` are **older/party-era** playlists heavy with
+  rap Jacob now skips — treat as historical range, not current taste.
+- `liked-from-radio` and `top-tracks` are broad discovery/history — breadth, not intent.
+- The **labeled, curated** playlists (`teen-angst`, `ordinary-man`, `vibey-shit`,
+  `surf-crush`, `80s-rock`) are the highest-signal for *current* taste.
 
 ---
 
 ## Open questions (let's close these)
 
-1. Screamo line — how heavy is too heavy? (Bad Omens / Our Last Night question above)
-2. Focus lane — is lo-fi/instrumental the right curated substitute for your Endel habit?
-3. Country — is it *only* for driving, or a broader mood you'd want elsewhere?
-4. Which buckets become standing playlists vs. on-demand moods?
-5. Anything the data over- or under-weights? (e.g., is Morgan Wallen really "you," or just background?)
+1. **Screamo line** — is "melodic-song-with-screams OK, constant-screaming not"
+   right? Name one band that's too heavy, to calibrate.
+2. **Focus lane** — is curated lo-fi/instrumental the right stand-in for your Endel habit?
+3. **Country** — driving-only, or a mood you'd want elsewhere?
+4. **Standing vs on-demand** — which buckets should be permanent, auto-updated playlists?
+5. **Gut check** — anything over- or under-weighted here? Any lane that isn't really you?
 
 ---
 
 ## Feedback log (additive — never rewritten)
 
-*Dated notes as you react to playlists. Nothing here yet.*
-
-- _(2026-07-09)_ Profile drafted from Liked Songs + listening history + interview.
+- _(2026-07-09)_ Profile drafted from Liked Songs + history + interview (v0.1).
+- _(2026-07-09)_ v0.2 — rebuilt after importing all 19 labeled playlists; split out
+  the hype / heavier / chill / summer lanes, added nostalgia + workout-rap nuances,
+  and refined the screamo rule from the `ordinary-man` evidence.
