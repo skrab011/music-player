@@ -70,6 +70,15 @@ def get_access_token():
         # No saved login yet, OR the saved login doesn't grant everything we
         # now need (e.g. we added read permissions). Do the full browser
         # login to get fresh, fully-scoped tokens.
+        if os.environ.get("CI"):
+            # In GitHub Actions there's no browser to log in through. The
+            # SPOTIFY_REFRESH_TOKEN secret should have been used above; if we
+            # got here, it's missing or empty. Fail loudly instead of hanging.
+            raise SystemExit(
+                "No usable login and running in CI/Actions. Set the "
+                "SPOTIFY_REFRESH_TOKEN secret (run print_refresh_token.py "
+                "locally to get its value)."
+            )
         tokens = _interactive_login()
         _save_tokens(tokens)
     elif time.time() >= tokens["expires_at"] - 60:

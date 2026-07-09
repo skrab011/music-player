@@ -1,0 +1,36 @@
+name: Build Playlist
+
+# Runs push_playlist.py in the cloud. Triggered manually (or by Claude via the
+# GitHub API) with the path to a playlist spec in the repo. Authenticates using
+# the SPOTIFY_REFRESH_TOKEN repository secret — no browser, no local machine.
+
+on:
+  workflow_dispatch:
+    inputs:
+      spec:
+        description: "Path to the playlist spec JSON (in the repo)"
+        required: true
+        default: "specs/resolver-test.json"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Build the playlist
+        env:
+          SPOTIFY_REFRESH_TOKEN: ${{ secrets.SPOTIFY_REFRESH_TOKEN }}
+          # Passed via env (not inlined into the shell) to avoid injection.
+          SPEC: ${{ inputs.spec }}
+        run: python push_playlist.py "$SPEC"
