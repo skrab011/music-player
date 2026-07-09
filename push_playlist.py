@@ -268,6 +268,17 @@ def main():
     print(f'Building "{name}"  ({mode} mode, {len(tracks)} tracks requested)\n')
     token = get_access_token()
 
+    # Print WHICH account we're writing to — so a "playlist isn't showing up"
+    # problem is easy to diagnose (usually a token minted on the wrong account).
+    me = requests.get(f"{API}/me", headers=_auth(token))
+    if me.status_code == 200:
+        who = me.json()
+        print(f"Writing to Spotify account: "
+              f"{who.get('display_name') or '(no display name)'}  "
+              f"(id: {who.get('id')})\n")
+    else:
+        print(f"! Could not read account profile: HTTP {me.status_code}\n")
+
     uris, weak, misses = [], [], []
     seen = set()
     for i, (artist, title) in enumerate(tracks, 1):
@@ -314,6 +325,8 @@ def main():
         for m in misses:
             print(f"  ✗ {m}")
     print("=" * 64)
+    print(f"Playlist ID:  {pid}")
+    print(f"Direct link:  https://open.spotify.com/playlist/{pid}")
     print("Open Spotify and check the playlist.")
 
 
