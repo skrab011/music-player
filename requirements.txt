@@ -1,0 +1,3 @@
+# The one dependency the AI DJ scripts need.
+# Install with:  python -m pip install -r requirements.txt
+requests>=2.31

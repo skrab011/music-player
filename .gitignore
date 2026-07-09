@@ -1,0 +1,8 @@
+# Spotify login tokens — tied to Jacob's account. NEVER commit this.
+.spotify_token.json
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
