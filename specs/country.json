@@ -1,0 +1,30 @@
+{
+  "name": "AI DJ — Country",
+  "description": "A broad country go-to — great for driving. Maintained by the AI DJ.",
+  "public": true,
+  "mode": "create",
+  "tracks": [
+    "Morgan Wallen - Whiskey Glasses",
+    "Morgan Wallen - Last Night",
+    "Morgan Wallen - Wasted on You",
+    "Morgan Wallen - You Proof",
+    "Morgan Wallen - Thinkin' Bout Me",
+    "Zach Bryan - Something in the Orange",
+    "Zach Bryan - Pink Skies",
+    "Zach Bryan - I Remember Everything",
+    "Zach Bryan - Heading South",
+    "Ella Langley - You Look Like You Love Me",
+    "Ella Langley - Weren't For The Wind",
+    "Cooper Alan - Tough",
+    "Luke Combs - Beautiful Crazy",
+    "Luke Combs - When It Rains It Pours",
+    "Riley Green - There Was This Girl",
+    "Jelly Roll - Need a Favor",
+    "Jelly Roll - Save Me",
+    "HARDY - One Beer",
+    "Bailey Zimmerman - Rock and A Hard Place",
+    "Bailey Zimmerman - Fall In Love",
+    "Cody Johnson - 'Til You Can't",
+    "Cody Johnson - The Painter"
+  ]
+}

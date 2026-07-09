@@ -1,0 +1,30 @@
+{
+  "name": "AI DJ — Workout",
+  "description": "High-BPM, driving — rock and hype rap for running and lifting. Maintained by the AI DJ.",
+  "public": true,
+  "mode": "create",
+  "tracks": [
+    "Eminem - Till I Collapse",
+    "Eminem - Lose Yourself",
+    "DMX - X Gon' Give It to Ya",
+    "DMX - Party Up (Up in Here)",
+    "Fort Minor - Remember the Name",
+    "Hollywood Undead - Undead",
+    "Avicii - Levels",
+    "Avicii - Wake Me Up",
+    "Måneskin - I WANNA BE YOUR SLAVE",
+    "Måneskin - Beggin'",
+    "Three Days Grace - Riot",
+    "Kanye West - Stronger",
+    "machine gun kelly - Till I Die",
+    "Linkin Park - Bleed It Out",
+    "The White Stripes - Seven Nation Army",
+    "Imagine Dragons - Thunder",
+    "blink-182 - All the Small Things",
+    "Panic! At The Disco - Victorious",
+    "grandson - Blood // Water",
+    "blackbear - hot girl bummer",
+    "Papa Roach - ...To Be Loved",
+    "Prodigy - Breathe"
+  ]
+}
