@@ -22,6 +22,7 @@ Then commit and push the seed-playlists/ folder so Claude can read it:
   git push
 """
 
+import json
 import os
 import re
 
@@ -44,15 +45,38 @@ def _safe_filename(name):
     return (cleaned or "untitled") + ".txt"
 
 
+def _extract_track(item):
+    """Get the track object out of one API item.
+
+    Playlist items and saved ("Liked") tracks wrap the track like
+    {"track": {...}}. Top-tracks come back as the track object directly.
+    Handle both shapes.
+    """
+    if isinstance(item, dict) and "track" in item:
+        return item["track"]
+    return item
+
+
 def _track_line(track):
     """Format one track as 'Artist1, Artist2 - Title', or None to skip it."""
-    if not track or track.get("type") != "track":
-        return None  # skip podcast episodes, unavailable/local tracks, etc.
-    artists = ", ".join(a["name"] for a in track.get("artists", []))
-    title = track.get("name", "")
-    if not title:
+    if not isinstance(track, dict):
         return None
-    return f"{artists} - {title}"
+    title = track.get("name")
+    if not title:
+        return None  # dropped/unavailable track, or a podcast episode
+    artists = ", ".join(a.get("name", "") for a in track.get("artists", []) if a)
+    return f"{artists} - {title}" if artists else title
+
+
+def _lines_from(items):
+    """Turn a page of API items into 'Artist - Title' lines, skipping junk.
+    If items came back but none were usable, dump the first one so we can
+    see its actual shape and fix the parser."""
+    lines = [line for it in items if (line := _track_line(_extract_track(it)))]
+    if items and not lines:
+        print("     [debug] got items but couldn't read any track — first item was:")
+        print("     " + json.dumps(items[0])[:600])
+    return lines
 
 
 def _paginate(token, url, params=None):
@@ -93,25 +117,21 @@ def export_owned_playlists(token, my_id):
     for p in mine:
         # Read this playlist's tracks. The endpoint is /items (Feb-2026 rename).
         items = _paginate(token, f"{API}/playlists/{p['id']}/items", params={"limit": 50})
-        lines = [line for it in items if (line := _track_line(it.get("track")))]
-        _write(_safe_filename(p["name"]), lines)
+        _write(_safe_filename(p["name"]), _lines_from(items))
 
 
 def export_liked(token):
     print("Liked Songs:")
     items = _paginate(token, f"{API}/me/tracks", params={"limit": 50})
-    lines = [line for it in items if (line := _track_line(it.get("track")))]
-    _write("liked-songs.txt", lines)
+    _write("liked-songs.txt", _lines_from(items))
 
 
 def export_top(token):
     print("Your all-time top tracks:")
-    # Top items come back as track objects directly (no 'track' wrapper).
     items = _paginate(
         token, f"{API}/me/top/tracks", params={"limit": 50, "time_range": "long_term"}
     )
-    lines = [line for t in items if (line := _track_line(t))]
-    _write("top-tracks.txt", lines)
+    _write("top-tracks.txt", _lines_from(items))
 
 
 def main():
@@ -121,11 +141,12 @@ def main():
     my_id = _my_id(token)
 
     # Run each section independently so one failure doesn't sink the rest.
-    for label, fn in (
+    sections = (
         ("owned playlists", lambda: export_owned_playlists(token, my_id)),
-        ("Liked Songs", export_liked),
-        ("top tracks", export_top),
-    ):
+        ("Liked Songs", lambda: export_liked(token)),
+        ("top tracks", lambda: export_top(token)),
+    )
+    for label, fn in sections:
         try:
             fn()
         except Exception as e:
