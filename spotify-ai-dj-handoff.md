@@ -3,7 +3,7 @@
 **Project:** Personal AI playlist curator ("ai-dj") — Claude curates, Spotify delivers, official app plays
 **Owner:** Jacob (architect, SAI — coding novice, strong domain knowledge)
 **Execution environment:** Claude Code, Windows (Dell Precision 5510)
-**Status:** Phase 0 essentially complete (round-trip proven; one durability check left). Phase 1 in progress (taste profile drafted). **See Section 11 for the resume-here checkpoint.**
+**Status:** Phase 0 PASS. Phase 1 COMPLETE (taste-profile v1.0 locked). Phase 2 code built; runtime moved to GitHub Actions; next action is proving it in the cloud (needs the `SPOTIFY_REFRESH_TOKEN` secret set). **See Section 11 — it's the resume-here checkpoint and has the exact next steps.**
 **Last updated:** 2026-07-09
 
 ---
@@ -208,46 +208,65 @@ Answers to the Section 9 interview. These are locked — do not relitigate.
 
 Snapshot of exactly where we stopped, so the next session starts cold with zero re-derivation. **Read this first.**
 
+> **This checkpoint was refreshed 2026-07-09 at the end of a very long session.** Phases 0 and 1 are done; Phase 2 code is built and the runtime has pivoted to GitHub Actions. **The single next action is proving Phase 2 in the cloud — see "DO THIS NEXT."**
+
 ### Where we are
-- **Phase 0 — PASS (round-trip).** `pipe_test.py` completed auth → search → create → add; playlist appeared on Jacob's phone. **One thing still open:** the next-day auto-refresh durability check — run `check_login.py` (should print OK with no browser). Minor; doesn't block Phase 2.
-- **Phase 1 — COMPLETE.** `taste-profile.md` **locked at v1.0**, Jacob approved. All 19 labeled playlists + Liked Songs + ~10 recent Apple adds imported. 7 standing playlists approved.
-- **Phase 2 — NEXT.** Build `push_playlist.py` (the resolver) and use it to create the 7 standing playlists for real.
+- **Phase 0 — PASS (round-trip).** `pipe_test.py` did auth → search → create → add; playlist appeared on Jacob's phone. *Open (minor, non-blocking):* next-day refresh durability check via `check_login.py`.
+- **Phase 1 — COMPLETE.** `taste-profile.md` **locked at v1.0**, Jacob approved ("great profile, no notes"). Built from all 19 labeled playlists + Liked Songs + ~10 recent Apple adds + 2 interview rounds.
+- **Phase 2 — CODE BUILT, NOT YET PROVEN.** `push_playlist.py` (the resolver) is written and unit-tested offline. It has NOT yet run against Jacob's real account. **Runtime decision changed:** we are running it via **GitHub Actions**, not locally (Jacob's Dell isn't always on). All Actions plumbing is built; we just need the auth secret set, then dispatch a run.
+
+### ⭐ DO THIS NEXT — prove Phase 2 via Actions
+
+**Blocking step (Jacob):** put a Spotify **refresh token** into the GitHub secret `SPOTIFY_REFRESH_TOKEN`.
+- From a work PC / any machine: run `get_token.py` (stdlib-only, saves nothing), copy the printed token.
+- Or from the Dell: `python print_refresh_token.py`.
+- Paste it at `https://github.com/skrab011/music-player/settings/secrets/actions` → New repository secret → name `SPOTIFY_REFRESH_TOKEN`.
+
+**Then (next Claude):**
+1. Dispatch the **`Build Playlist`** workflow (`.github/workflows/build-playlist.yml`) on input `spec = specs/resolver-test.json`. Trigger it via the GitHub MCP tool `actions_run_trigger` (or have Jacob click **Run workflow** in the repo's Actions tab).
+2. Read the run logs (GitHub MCP `get_job_logs` / `actions_get`).
+3. **Verify Phase 2 acceptance:** ≥20/25 tracks matched, misses named clearly, no live/karaoke/cover junk. Have Jacob confirm the **"AI DJ — resolver test"** playlist looks right on his phone.
+4. If misses need fixing, edit the spec and re-dispatch. Once it passes, Phase 2 is done.
+
+**Then — first real use (Phase 2→3):** generate tracklists from `taste-profile.md` and build the 7 approved standing playlists (see below), each as its own `specs/*.json`, dispatched the same way.
+
+### The ongoing loop (how Claude drives this now)
+Generate tracklist → write `specs/<name>.json` → commit+push to `main` → dispatch `Build Playlist` with that spec path → read logs → substitute misses, re-dispatch if needed. The playlist appears on Jacob's account. He does nothing.
 
 ### What's built and committed (all on `main`)
-- `config.py` — Client ID, redirect URI (`127.0.0.1:8888/callback`), token-cache path, scopes. Env-overridable for future Actions use.
-- `spotify_auth.py` — PKCE login, local callback catcher, token cache, auto-refresh, **scope-aware** (re-prompts if cached login lacks a needed scope). Actions-ready via `SPOTIFY_REFRESH_TOKEN`.
-- `pipe_test.py` — Phase 0 prover.
-- `check_login.py` — no-side-effect auth check (for the durability test).
-- `export_playlists.py` — read-only dump of owned playlists + Liked Songs + top tracks to `seed-playlists/*.txt`.
-- `seed-playlists/` — `liked-songs.txt` (1,214) and `top-tracks.txt` (~15k) are **real**; the per-playlist files are **still empty** pending Jacob's re-run (see below).
-- `taste-profile.md` — v0.1 draft.
-
-### Jacob's TODO (small, non-blocking)
-1. **Run `check_login.py`** once (after ~an hour / next day) to close Phase 0's durability half.
-2. *(Optional)* manually add the 10 recent Apple songs to his Spotify Liked Songs — or wait for the end-of-build library-write feature (see Backlog).
-3. *(Optional)* delete the "AI DJ — pipe test" playlist from Spotify.
+- `config.py` — Client ID, redirect URI, token-cache path, the 6 scopes. Env-overridable.
+- `spotify_auth.py` — PKCE login, callback catcher, token cache, auto-refresh, **scope-aware**, **CI guard** (fails fast in Actions if the secret is missing instead of hanging). Uses `SPOTIFY_REFRESH_TOKEN` env var when set (the Actions path).
+- `pipe_test.py` — Phase 0 prover. · `check_login.py` — no-side-effect auth check.
+- `export_playlists.py` — read-only library dump → `seed-playlists/*.txt`.
+- `seed-playlists/` — ALL 19 playlists populated + `liked-songs.txt` (1,214) + `top-tracks.txt` (~15k) + `recent-apple-adds.txt` (10).
+- `taste-profile.md` — **v1.0, locked.**
+- `push_playlist.py` — the resolver (spec JSON → search/match/create-or-update → report).
+- `specs/resolver-test.json` — 25-track acceptance-test spec (2 deliberate typos).
+- `print_refresh_token.py` (reads Dell cache) and `get_token.py` (stdlib-only, any machine) — both mint the secret value.
+- `.github/workflows/build-playlist.yml` — the Actions runtime.
 
 ### Backlog (do at END of build, per Jacob's request)
-- **Save-to-Liked-Songs feature:** add the `user-library-modify` scope and a small helper so Claude can save tracks into Jacob's Liked Songs directly (e.g., promote loved tracks, or add the recent Apple picks). Jacob wants to grant this permission later, not now.
+- **Save-to-Liked-Songs feature:** add `user-library-modify` scope + a helper so Claude can save tracks into Jacob's Liked Songs directly. He'll grant that permission later.
 
-### For the next Claude — Phase 2 starts here
-- **Build `push_playlist.py`** — the resolver. Input: a tracklist (artist – title per line, or JSON). For each track: `GET /search` (limit ≤10, paginate with offset), pick the best match (tight artist+title; prefer studio over live/remix/cover unless asked), collect URIs. Then create a playlist (`POST /me/playlists`, public per Section 10) or update an existing one's items (`PUT /playlists/{id}/items`), adding via `POST /playlists/{id}/items`. **Auto-substitute misses silently** (Section 10 decision) but still print a clear report of what was swapped/failed. Reuse `spotify_auth.get_access_token()`. Keep it Actions-ready and heavily commented (novice).
-- **First real use:** generate tracklists from `taste-profile.md` (v1.0) and create the 7 standing playlists: **AI DJ — Chill · Hype · Heavier · Summer · Workout · Country · Focus.**
-- Then Phases 3–4 (DJ-loop command + `update` mode; feedback log).
+### The 7 standing playlists (approved — build after Phase 2 passes)
+**AI DJ — Chill · Hype · Heavier · Summer · Workout · Country · Focus.** Everything else (nostalgia, seasonal, Taylor) stays on-demand. See `taste-profile.md` for what each contains.
 
-### Environment facts (so the next session doesn't rediscover them)
-- Runs on Jacob's Dell (Windows), **PowerShell**, **Python 3.14.6**, **git 2.55**. Repo at `C:\Users\jskra\Documents\music-player`.
-- git identity configured (Jacob Skraba / jskraba0601@gmail.com); GitHub push works via browser auth (Git Credential Manager). Password auth is NOT supported — don't suggest it.
-- Token cached locally in `.spotify_token.json` (gitignored) with full read+write scopes.
-- **This Claude runs in the cloud and cannot execute scripts on the Dell.** Workflow: Claude writes/commits code → Jacob pulls, runs, and pastes terminal output → Claude reacts. Plan for that round-trip.
-- All work lands on `main` (per Section 10 / CLAUDE.md).
+### Jacob's TODO
+1. **Set the `SPOTIFY_REFRESH_TOKEN` secret** (the blocking step above).
+2. *(Minor)* run `check_login.py` once to close Phase 0's durability half.
+3. *(Optional)* delete the "AI DJ — pipe test" / "AI DJ — resolver test" playlists later.
+
+### Environment facts (don't rediscover)
+- **Runtime is GitHub Actions**, triggered by Claude via GitHub MCP. Auth = `SPOTIFY_REFRESH_TOKEN` secret. Actions runners CAN reach Spotify.
+- **The cloud Code sandbox's egress policy BLOCKS `accounts.spotify.com` (403).** So *this Claude cannot do token exchange or run `push_playlist.py` directly* — anything touching Spotify must run on Jacob's machine or in Actions. (This is why the runtime is Actions.)
+- Jacob's Dell: Windows, PowerShell, Python 3.14.6, git 2.55, repo at `C:\Users\jskra\Documents\music-player`, git identity set, push works via browser auth (no passwords). `.spotify_token.json` cached there with full scopes.
+- All work lands on `main`.
 
 ### Hard-won technical facts (don't relearn these)
-- **Add-to-playlist endpoint is `/items`** (confirmed live).
-- **Playlist `/items` wraps the track under `"item"`**; the old `"track"` key there is now a boolean flag. Saved/Liked tracks still wrap under `"track"`. Top-tracks are bare track objects. (`export_playlists.py` handles all three.)
-- **`/me/top/tracks` returns ~15k tracks** (deep history, not a top-50) — treat as breadth signal, not a curated list.
-- **`Endel` is Jacob's single most-played artist** (functional focus/sleep ambient) — key insight for focus/downtime buckets.
-- **Liked Songs contains legacy high-school rap** (Hopsin, Krizz Kaliko, Lil Dicky, blackbear, etc.) that Jacob now skips — do NOT treat Liked Songs as current taste wholesale.
+- **Add-to-playlist endpoint is `/items`** (confirmed). `PUT /playlists/{id}/items` replaces; `POST` appends (batch by 100).
+- **Playlist `/items` wraps the track under `"item"`**; the old `"track"` key is now a boolean flag. Saved/Liked tracks still wrap under `"track"`. Top-tracks are bare track objects.
+- **`/me/top/tracks` returns ~15k tracks** (deep history, not a top-50).
+- **Taste essentials:** signal priority = *likes > labeled playlists* (Jacob curates by liking); screamo ceiling = Of Mice & Men (melodic-with-screams OK); focus lane = lo-fi/trip hop/downtempo (soft vocals OK); country is a broad go-to; hard/technical rap out (Hopsin, Krizz Kaliko, sKitz Kraven, Tech N9ne), melodic/emo rap OK. **Endel was removed** — it topped raw history but Jacob doesn't use it; not a taste signal.
 
 ---
 

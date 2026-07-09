@@ -35,7 +35,7 @@ All curation intelligence comes from Claude. Never attempt to call `/recommendat
 
 - **Python 3**, minimal dependencies: `requests` (or `spotipy` only if it has been updated for the Feb 2026 endpoint renames — verify before adopting)
 - **Auth:** Authorization Code with PKCE, token cached to a local gitignored file, auto-refresh
-- **Runs on:** Jacob's Dell Precision 5510 (Windows) for v1 — Python to be installed there. No server, no hosting, no scheduler in v1. `push_playlist.py` is written Actions-ready (token from env var, tracklist from file, non-interactive) so GitHub Actions is a config-only hosting upgrade later. See handoff Section 10.
+- **Runs on:** **GitHub Actions** (decided 2026-07-09 — the Dell isn't always on). `push_playlist.py` runs in the `Build Playlist` workflow, authenticating via the `SPOTIFY_REFRESH_TOKEN` secret; Claude triggers runs via the GitHub API and reads results from the run logs. No server, no always-on machine. **Note:** the cloud Code sandbox itself can't reach Spotify (egress policy) — all Spotify calls happen in Actions or on Jacob's machine. See handoff Section 11.
 - **Curation:** Claude Code session (subscription cost = $0 marginal). Anthropic API backend is a documented future upgrade, not v1.
 
 ## Repo hygiene
