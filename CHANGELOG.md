@@ -4,6 +4,17 @@ A running record of notable changes to the AI DJ project. Newest first.
 
 ---
 
+## 2026-07-10 — New on-demand playlist: AI DJ — Wake Up
+
+Jacob asked for an alt-punk / rock / Linkin-Park-esque set to wake up at the
+office (45–60 min, not standing). Built on-demand: Linkin Park energy + 2000s
+emo-punk anthems + melodic-aggressive drivers, ~16 tracks / ~50 min,
+front-loaded loud. Stayed melodic (OM&M screamo ceiling respected).
+
+- New spec `specs/wake-up.json`; built via `Build Playlist` off `main`.
+- Playlist: https://open.spotify.com/playlist/1AGUwCwxsqAcCffD87HpkB
+  (16/16 confident matches, 0 weak, 0 missed — all exact studio titles).
+
 ## 2026-07-10 — New on-demand playlist: AI DJ — Soft Morning
 
 Jacob asked for a soft, moody playlist to sleep to on the bus ride to work.
