@@ -9,7 +9,7 @@ name: Rotate Standing Playlists
 
 on:
   schedule:
-    - cron: "0 13 * * 1"   # Mondays 13:00 UTC (early morning US). Adjust freely.
+    - cron: "0 18 * * 5"   # Fridays 18:00 UTC — new-music-Friday releases are live by then.
   workflow_dispatch: {}      # lets you (or Claude) trigger a run on demand
 
 permissions:
