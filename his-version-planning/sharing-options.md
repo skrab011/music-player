@@ -111,6 +111,44 @@ identical; only the curation front-end changes.
 
 ---
 
+## Leading direction: shared API key + messaging bot (on-demand, Haiku)
+
+The most promising path found so far — it removes the subscription entirely and
+gives the brother a conversational experience.
+
+**The key facts:**
+- The consumer **Claude app can't take an API key** (subscription auth only) —
+  so "share your account via the app" isn't possible. Hooking a bot to Jacob's
+  **API key** is.
+- **Haiku is almost free for this.** `claude-haiku-4-5` is ~$1/M input, $5/M
+  output. A curation is a few thousand input tokens (cacheable) + ~1K output →
+  **a penny or two per playlist, ~$1–2/mo** even with regular use. No sub needed.
+
+**Architecture:** his free **messaging bot** (Telegram = easiest/free/iOS-native;
+or SMS via Twilio for the literal "text a number" feel) → **Jacob's API key**
+(Haiku) generates the tracklist → **triggers the playlist build** → texts back
+the Spotify link. Full chat→playlist loop, nothing to copy-paste, he installs
+only a messaging app.
+
+**Sharing Jacob's account safely (non-negotiable):**
+- **Dedicated key in a spend-capped Workspace** — the Anthropic Console supports
+  separate workspaces with their own monthly spend limit + key. Cap the DJ
+  workspace (e.g. $5/mo); Jacob's main usage is walled off.
+- **Key stays server-side** in the bot backend Jacob controls — the brother
+  never sees it (much safer than pasting a raw key into an app on his phone).
+
+**Alternatives considered (weaker for his case):**
+- *Bring-your-own-key chat apps* (off-the-shelf iOS) — chat only, doesn't touch
+  GitHub/build, so still copy-paste.
+- *iOS Shortcut* — lightweight HTTP call to the API, Siri-triggerable, but clunky
+  for real conversation.
+
+**Delivery-loop wrinkle:** the bot still needs to *trigger the build*. Cleanest is
+to have the bot commit the spec (and add an auto-build-on-spec-change trigger to
+the workflow), or call the build directly. To be nailed down in planning.
+
+---
+
 ## Open decisions / next steps
 
 - [ ] Talk to brother — on-demand vs. auto-refreshing? How much discovery matters?
@@ -118,4 +156,8 @@ identical; only the curation front-end changes.
 - [ ] If B: sort out anti-repetition memory + where the API key lives.
 - [ ] Decide whether to add the auto-build-on-spec-change trigger (his repo, and
       whether Jacob's too).
-- [ ] (Placeholder) Jacob's additional option based on the API-cost insight — TBD.
+- [ ] **Leading direction chosen:** shared spend-capped API key + messaging bot on
+      Haiku (see section above). To be planned in detail in a Fable 5 session —
+      see `handoff.md` in this folder.
+- [ ] Pick the messaging surface (Telegram vs SMS/Twilio) and where the bot backend runs.
+- [ ] Decide how the bot triggers the build (commit spec + auto-trigger vs direct call).
