@@ -4,6 +4,19 @@ A running record of notable changes to the AI DJ project. Newest first.
 
 ---
 
+## 2026-07-10 — New on-demand playlist: AI DJ — Soft Morning
+
+Jacob asked for a soft, moody playlist to sleep to on the bus ride to work.
+Built as a **new** on-demand playlist (distinct from the standing Soft & Moody),
+leaning soft bedroom-pop at low activation — the gentlest end of the
+Billie / Clairo / girl in red neighborhood, ~20 tracks for a ~60-minute ride.
+
+- New spec `specs/soft-morning.json`; built via `Build Playlist`.
+- Resolver confidently mismatched `Alec Benjamin - Water` → "Water Fountain";
+  caught it on the title eyeball and swapped to "Let Me Down Slowly".
+- Playlist: https://open.spotify.com/playlist/1PAinWGQQGwAL5Im1P18Y9
+  (20/20 confident matches, 0 weak, 0 missed).
+
 ## 2026-07-10 — Documentation consolidation
 
 The docs had drifted badly from reality (the README still said "not yet built").
