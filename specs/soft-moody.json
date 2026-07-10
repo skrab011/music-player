@@ -2,7 +2,7 @@
   "name": "AI DJ — Soft & Moody",
   "description": "Soft, moody, cinematic — the Billie Eilish / Ella Red neighborhood. Dreamy bedroom alt-pop and introspective slow-burners. Custom curation by the AI DJ.",
   "public": true,
-  "mode": "create",
+  "mode": "update",
   "tracks": [
     "Ella Red - I Like You Best",
     "Ella Red - Damsel in Distress",
