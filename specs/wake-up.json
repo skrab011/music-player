@@ -1,0 +1,24 @@
+{
+  "name": "AI DJ — Wake Up",
+  "description": "Alt-punk / rock jolt to shake off the morning — Linkin Park energy, 2000s emo-punk anthems, melodic-aggressive drivers. Front-loaded and loud. On-demand curation by the AI DJ.",
+  "public": true,
+  "mode": "create",
+  "tracks": [
+    "Linkin Park - One Step Closer",
+    "Papa Roach - Last Resort",
+    "Fall Out Boy - Sugar, We're Goin Down",
+    "Green Day - American Idiot",
+    "My Chemical Romance - Welcome to the Black Parade",
+    "Paramore - Misery Business",
+    "blink-182 - First Date",
+    "Three Days Grace - Animal I Have Become",
+    "A Day To Remember - All I Want",
+    "Bring Me The Horizon - Throne",
+    "I Prevail - Bad Things",
+    "All Time Low - Dear Maria, Count Me In",
+    "The All-American Rejects - Gives You Hell",
+    "STARSET - My Demons",
+    "Panic! At The Disco - Hey Look Ma, I Made It",
+    "Linkin Park - Bleed It Out"
+  ]
+}
