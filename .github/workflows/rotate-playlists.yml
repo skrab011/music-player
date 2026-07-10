@@ -1,0 +1,59 @@
+name: Rotate Standing Playlists
+
+# Once a week, refresh all 7 standing "AI DJ —" playlists with fresh,
+# discovery-leaning picks and rebuild them on Spotify. Two secrets are used:
+#   ANTHROPIC_API_KEY   — curates the new tracklists (Claude)
+#   SPOTIFY_REFRESH_TOKEN — builds the playlists (already set for Build Playlist)
+# The regenerated specs + rotation history are committed back so next week's
+# run knows what not to repeat.
+
+on:
+  schedule:
+    - cron: "0 13 * * 1"   # Mondays 13:00 UTC (early morning US). Adjust freely.
+  workflow_dispatch: {}      # lets you (or Claude) trigger a run on demand
+
+permissions:
+  contents: write            # needed to commit the refreshed specs + history
+
+jobs:
+  rotate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Generate this week's tracklists
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          # Optional: uncomment to curate on the cheaper Haiku model instead.
+          # ANTHROPIC_MODEL: claude-haiku-4-5
+        run: python generate_rotations.py
+
+      - name: Build each playlist on Spotify
+        env:
+          SPOTIFY_REFRESH_TOKEN: ${{ secrets.SPOTIFY_REFRESH_TOKEN }}
+        run: |
+          for spec in specs/chill.json specs/hype.json specs/heavier.json \
+                      specs/summer.json specs/workout.json specs/country.json \
+                      specs/focus.json; do
+            echo "=== Building $spec ==="
+            python push_playlist.py "$spec"
+          done
+
+      - name: Commit refreshed specs + history
+        run: |
+          git config user.name "AI DJ rotation bot"
+          git config user.email "noreply@anthropic.com"
+          git add specs/ rotation-history/
+          if git diff --cached --quiet; then
+            echo "Nothing changed — skipping commit."
+          else
+            git commit -m "Weekly rotation: refresh standing playlists ($(date -u +%Y-%m-%d))"
+            git push
+          fi

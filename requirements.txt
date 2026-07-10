@@ -1,3 +1,4 @@
-# The one dependency the AI DJ scripts need.
+# Dependencies the AI DJ scripts need.
 # Install with:  python -m pip install -r requirements.txt
 requests>=2.31
+anthropic>=0.40    # used by generate_rotations.py to curate the weekly rotation
