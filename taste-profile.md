@@ -113,14 +113,17 @@ name is still TBD — likely lo-fi/melodic/downtempo house.
 | **Taylor (folklore era)** | introspective indie-folk | folklore/evermore | `taylor` |
 | **Christmas (Dec only)** | holiday | Lindsey Stirling instrumental | `christmas-2023` |
 
-### Standing playlists (APPROVED — build these in Phase 2)
+### Standing playlists (BUILT ✅ 2026-07-09 — names approved by Jacob)
 
-The auto-updated "AI DJ —" playlists we'll create and maintain:
+The auto-updated "AI DJ —" playlists, live on the account:
 **AI DJ — Chill · AI DJ — Hype · AI DJ — Heavier · AI DJ — Summer ·
 AI DJ — Workout · AI DJ — Country · AI DJ — Focus**
 
-Everything else (nostalgia, seasonal, Taylor) stays on-demand. ❓ Happy with these
-7 names?
+These 7 rotate weekly with discovery picks (since 2026-07-10). An 8th, custom
+standing playlist — **AI DJ — Soft & Moody** (Billie Eilish moody era / Ella Red
+dream-pop neighborhood, added 2026-07-10) — updates only on request.
+
+Everything else (nostalgia, seasonal, Taylor) stays on-demand.
 
 ---
 
@@ -161,3 +164,6 @@ Everything else (nostalgia, seasonal, Taylor) stays on-demand. ❓ Happy with th
   7-playlist standing set.
 - _(2026-07-09)_ **v1.0 — Jacob read and approved ("great profile, no notes");
   7 standing-playlist names confirmed. Phase 1 complete.**
+- _(2026-07-10)_ status note (no taste change): the 7 standing playlists are
+  built and now rotate weekly; added "AI DJ — Soft & Moody" as an 8th, custom
+  standing playlist (Billie Eilish moody era / Ella Red dream-pop neighborhood).

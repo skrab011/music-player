@@ -1,10 +1,17 @@
-# Spotify AI DJ — Project Handoff & Phased Plan
+# Spotify AI DJ — Project Reference & History
+
+> **What this doc is (since 2026-07-10):** the project's deep reference — locked
+> decisions, dead ends, the API reality check, phase records with acceptance
+> tests, and the hard-won facts. The lean day-to-day operating guide is
+> **`CLAUDE.md`** (auto-loaded by Claude Code); session-by-session changes are in
+> **`CHANGELOG.md`**. Nothing here gets deleted — superseded items are annotated
+> in place.
 
 **Project:** Personal AI playlist curator ("ai-dj") — Claude curates, Spotify delivers, official app plays
 **Owner:** Jacob (architect, SAI — coding novice, strong domain knowledge)
-**Execution environment:** Claude Code, Windows (Dell Precision 5510)
-**Status:** Phase 0 PASS. Phase 1 COMPLETE (taste-profile v1.0 locked). **Phase 2 PASS** — the resolver ran in GitHub Actions and scored 25/25 on the acceptance spec (2026-07-09). Next action is first real use: build the 7 standing playlists. **See Section 11 — it's the resume-here checkpoint and has the exact next steps.**
-**Last updated:** 2026-07-09
+**Execution environment:** Claude Code sessions drive it; delivery runs in GitHub Actions
+**Status:** **Built and running.** Phases 0–3 done: the pipe is proven, taste-profile v1.0 is locked, the resolver scored 25/25, all 7 standing playlists are built (plus the custom Soft & Moody), and a weekly discovery rotation refreshes them every Friday. **Section 11 is the current-state checkpoint.**
+**Last updated:** 2026-07-10
 
 ---
 
@@ -32,7 +39,7 @@ Jacob wants a Pandora/Apple Music replacement where an AI generates playlists ta
 | Curation engine | Claude Code session (interactive) | $0 marginal cost on existing subscription. Anthropic API backend = future upgrade path (Section 8), not v1. |
 | Language | Python 3, minimal deps | Novice-friendly; matches Jacob's other projects (Pi alarm plan, terrain scripts). |
 | Auth flow | Authorization Code with PKCE | No client secret to protect — safest pattern for a novice's local script. Token cached locally, gitignored, auto-refreshed. |
-| Where it runs | Local script on Dell laptop, run on demand by Claude Code | No server exists (no Pi purchased yet — confirmed 2026-07-08). No hosting cost. No scheduler needed for on-demand playlists. |
+| Where it runs | ~~Local script on Dell laptop, run on demand by Claude Code~~ **SUPERSEDED 2026-07-09 → GitHub Actions** | Original rationale: no server exists (no Pi purchased yet — confirmed 2026-07-08), no hosting cost, no scheduler needed. Changed because the Dell isn't always on and the cloud Code sandbox can't reach Spotify — see §10's runtime decision and §11's environment facts. The "Actions-ready from the start" design constraint made this a config change, not a rewrite. |
 | Taste memory | `taste-profile.md` in repo, maintained by Claude | Plain-text, human-readable, survives across sessions, versioned in Git. |
 | Spotify's role | Catalog search + playlist CRUD **only** | All discovery endpoints removed for new Dev Mode apps (see Section 3). Claude does 100% of curation. |
 
@@ -129,6 +136,8 @@ Codify the loop so any session can run it: read `taste-profile.md` → generate 
 
 **Acceptance test:** cold session, one prompt ("hour-long Sunday cooking playlist, upbeat but not frantic"), playlist on the phone in one pass with ≤2 manual interventions.
 
+**Result (2026-07-10): PASS in practice.** The loop is codified (spec format + `Build Playlist` dispatch, documented in `CLAUDE.md`), update mode is live on all standing playlists, and a cold-session custom request ("Soft & Moody", Billie Eilish / Ella Red neighborhood) went prompt → playlist in one pass, 24/24 matched, zero interventions — then was promoted to a standing playlist by flipping its spec to `update`.
+
 ### Phase 4 — Feedback + taste evolution
 
 A lightweight convention: Jacob reports reactions in plain language; Claude appends dated adjustments to `taste-profile.md` (never silently rewrites history — additive log section). Optional: a `promote` command that copies loved tracks into a permanent "AI DJ Gold" playlist.
@@ -139,12 +148,14 @@ A lightweight convention: Jacob reports reactions in plain language; Claude appe
 
 Claude proposes tracks/artists *outside* the profile deliberately (adjacent genres, deep cuts, the East Asian ambient/jazz territory Jacob gravitates toward aesthetically). Marked as experiments; feedback feeds Phase 4. This replaces — and out-explains — Spotify's dead recommendation engine.
 
+**Result (2026-07-10): LIVE, in a different shape than sketched.** Discovery became the **weekly rotation** (`generate_rotations.py` + `rotate-playlists.yml`): the 7 standing playlists refresh every Friday with "adjacent deep cuts" — in-taste but likely unheard — with per-lane anti-repeat history in `rotation-history/`. Dial sits at "adjacent deep cuts" (safe) rather than full outside-the-profile experiments; the bolder version of Phase 5 remains available on demand. See CHANGELOG 2026-07-10 for the design decisions.
+
 ---
 
 ## 6. Out of Scope
 
 - Playing audio anywhere in this codebase
-- Scheduling/automation (no daily auto-playlists in v1 — no always-on machine exists)
+- ~~Scheduling/automation (no daily auto-playlists in v1 — no always-on machine exists)~~ **SUPERSEDED 2026-07-10:** the weekly rotation (`rotate-playlists.yml`, Fridays 18:00 UTC) is exactly this, made possible by the move to GitHub Actions — cron on a runner replaced the missing always-on machine. Original reasoning was sound for the local-Dell runtime it assumed.
 - Multi-user anything
 - Scraping Spotify or any workaround for removed endpoints
 - Audio-feature analysis via third-party APIs (RapidAPI resellers exist; cost + reliability not worth it for v1)
@@ -155,7 +166,7 @@ Every script failure prints what failed, which track/call, and the HTTP status i
 
 ## 8. Future upgrade paths (documented, not planned)
 
-- **A. Anthropic API backend:** replace the interactive Claude Code session with a script calling the Messages API — enables one-command playlists outside Code sessions. Costs per-call; needs API key management. Sensible once the loop is proven.
+- **A. Anthropic API backend:** replace the interactive Claude Code session with a script calling the Messages API — enables one-command playlists outside Code sessions. Costs per-call; needs API key management. Sensible once the loop is proven. **Partially realized 2026-07-10:** `generate_rotations.py` is exactly this shape for the weekly rotation (Messages API + structured output, spend-capped key). On-demand curation stays interactive.
 - **B. Web front-end:** a small local page ("give me a vibe" text box) driving option A. Only worth it if the CLI loop feels clunky in practice.
 - **C. Fallback if Spotify closes Dev Mode further:** revisit the self-hosted route (Navidrome + purchased library + future Pi) or Apple MusicKit ($99/yr developer account — Jacob prefers Apple's artist treatment, so this is not absurd if he'd otherwise return to an Apple Music subscription anyway).
 - **D. Apple Music delivery layer:** full ready-to-execute porting plan written up in **`apple-music-port.md`** (auth split, endpoint mapping, the append-only update-mode gotcha, secrets, code checklist). Deferred 2026-07-09 — Spotify stays primary; the plan keeps the curation brain shared so Apple can be *added* later without forking the taste profile or specs. Cost floor is $99/yr developer **+** an Apple Music sub (no free API tier).
@@ -199,6 +210,14 @@ Answers to the Section 9 interview. These are locked — do not relitigate.
 
 ### Runtime decision (extends Section 2 / Section 8-A)
 
+> **SUPERSEDED 2026-07-09:** the "deferred" below lasted one day — the runtime IS
+> GitHub Actions now (the Dell isn't always on, and the cloud Code sandbox can't
+> reach Spotify). The reasoning held up exactly as written: the first PKCE auth
+> happened once on a real machine, the refresh token went into the
+> `SPOTIFY_REFRESH_TOKEN` secret, and because the script was written
+> "Actions-ready from the start," the migration was config, not a rewrite.
+> Original decision kept below for the record.
+
 **v1 runs locally on the Dell (Python install).** GitHub Actions is a valid — and attractive — hosting upgrade, but deferred, for two reasons:
 1. **Initial PKCE consent is interactive** (browser login). Actions is headless, so the first auth must happen once on a real machine regardless; the resulting refresh token would then be stored as an encrypted GitHub secret for unattended runs.
 2. **Actions front-loads complexity** (secrets, workflow files, a trigger mechanism to pass the tracklist in) onto an as-yet-unproven script. Phase 0's job is to prove the auth→search→create pipe with minimum moving parts.
@@ -207,31 +226,26 @@ Answers to the Section 9 interview. These are locked — do not relitigate.
 
 ---
 
-## 11. Resume-Here Checkpoint (2026-07-09)
+## 11. Current-State Checkpoint (2026-07-10)
 
-Snapshot of exactly where we stopped, so the next session starts cold with zero re-derivation. **Read this first.**
+Snapshot of where the project stands, so any session starts cold with zero re-derivation. **Read this first.**
 
-> **This checkpoint was refreshed 2026-07-09 after proving Phase 2 in the cloud.** Phases 0, 1, and 2 are all done. The Actions runtime is live and working end-to-end. **The next action is first real use — build the 7 standing playlists. See "DO THIS NEXT."**
+> **This checkpoint was refreshed 2026-07-10** during the docs consolidation. The project is out of build mode and into operation: everything through the standing playlists is done, the weekly rotation is live, and the day-to-day operating guide moved to `CLAUDE.md`. Session history now accrues in `CHANGELOG.md`.
 
 ### Where we are
 - **Phase 0 — PASS (round-trip).** `pipe_test.py` did auth → search → create → add; playlist appeared on Jacob's phone. *Open (minor, non-blocking):* next-day refresh durability check via `check_login.py`.
 - **Phase 1 — COMPLETE.** `taste-profile.md` **locked at v1.0**, Jacob approved ("great profile, no notes"). Built from all 19 labeled playlists + Liked Songs + ~10 recent Apple adds + 2 interview rounds.
 - **Phase 2 — PASS (proven in Actions, 2026-07-09).** `push_playlist.py` ran against Jacob's real account via GitHub Actions (run `29020947104`) and scored **25/25 on `specs/resolver-test.json`** (all confident, 0 weak, 0 missed; both deliberate typos auto-corrected; no junk). The `SPOTIFY_REFRESH_TOKEN` secret is set and the Actions→Spotify auth path works headless. *Owed:* Jacob's phone-eyeball of the "AI DJ — resolver test" playlist.
-
-### ⭐ DO THIS NEXT — first real use (build the 7 standing playlists)
-
-The pipe is proven; now generate real tracklists and build the standing playlists. For each of the 7 (**Chill · Hype · Heavier · Summer · Workout · Country · Focus**):
-1. Read `taste-profile.md` for what that bucket should contain.
-2. Generate a tracklist and write it to `specs/<name>.json` (see the spec format in `push_playlist.py`'s header; `mode: "create"` first time, `"update"` thereafter).
-3. Commit + push the spec to `main`.
-4. Dispatch **`Build Playlist`** (`.github/workflows/build-playlist.yml`) with `spec = specs/<name>.json` via the GitHub MCP tool `actions_run_trigger` (ref `main`).
-5. Read the run logs (`get_job_logs`); substitute any misses/weak matches in the spec and re-dispatch if needed.
-6. Jacob eyeballs the result on his phone.
-
-**Dispatch mechanics that are now known-good:** ref `main`, workflow file `build-playlist.yml`, input key `spec`. A healthy run reaches the "Build the playlist" step and prints the per-track match report + a summary line.
+- **Phase 3 — PASS in practice (2026-07-09/10).** All 7 standing playlists built and flipped to `update` mode (per-playlist detail below); the loop is codified in `CLAUDE.md`; the cold-request test case was "Soft & Moody" (24/24, one pass), since promoted to a standing playlist.
+- **Phase 4 — mechanism in place.** The additive feedback log in `taste-profile.md` is the vehicle; it evolves as Jacob reacts. No formal acceptance test run yet.
+- **Phase 5 — LIVE as the weekly rotation** (see §5 Phase 5 note and CHANGELOG 2026-07-10).
 
 ### The ongoing loop (how Claude drives this now)
-Generate tracklist → write `specs/<name>.json` → commit+push to `main` → dispatch `Build Playlist` with that spec path → read logs → substitute misses, re-dispatch if needed. The playlist appears on Jacob's account. He does nothing.
+Generate tracklist → write `specs/<name>.json` → commit+push to `main` → dispatch `Build Playlist` with that spec path → read logs → substitute misses, re-dispatch if needed. The playlist appears on Jacob's account. He does nothing. (Step-by-step version: `CLAUDE.md`.)
+
+**Dispatch mechanics that are known-good:** ref `main`, workflow file `build-playlist.yml`, input key `spec`. A healthy run reaches the "Build the playlist" step and prints the per-track match report + a summary line.
+
+**The rotation runs itself:** `rotate-playlists.yml`, Fridays 18:00 UTC (also `workflow_dispatch`) — `generate_rotations.py` (Anthropic API, `ANTHROPIC_API_KEY` secret, default model `claude-opus-4-8`, `TRACKS_PER_LANE=24`, `HISTORY_WEEKS=8`) regenerates the 7 rotating specs against `rotation-history/`, builds each via `push_playlist.py`, and commits specs + history back to `main`. First run verified 2026-07-10 (~$0.26). Accepted tradeoffs: no human miss-substitution in unattended runs (~1–2 weak picks/lane), Workout can brush the screamo ceiling.
 
 ### What's built and committed (all on `main`)
 - `config.py` — Client ID, redirect URI, token-cache path, the 6 scopes. Env-overridable.
@@ -239,19 +253,22 @@ Generate tracklist → write `specs/<name>.json` → commit+push to `main` → d
 - `pipe_test.py` — Phase 0 prover. · `check_login.py` — no-side-effect auth check.
 - `export_playlists.py` — read-only library dump → `seed-playlists/*.txt`.
 - `seed-playlists/` — ALL 19 playlists populated + `liked-songs.txt` (1,214) + `top-tracks.txt` (~15k) + `recent-apple-adds.txt` (10).
-- `taste-profile.md` — **v1.0, locked.**
+- `taste-profile.md` — **v1.0, locked**, additive feedback log.
 - `push_playlist.py` — the resolver (spec JSON → search/match/create-or-update → report).
-- `specs/resolver-test.json` — 25-track acceptance-test spec (2 deliberate typos).
+- `generate_rotations.py` — the weekly rotation curator (Anthropic API → fresh specs).
+- `specs/` — the 8 standing-playlist specs (all `update` mode) + `resolver-test.json` (25-track acceptance spec, 2 deliberate typos).
+- `rotation-history/` — per-lane anti-repeat memory for the rotation.
 - `print_refresh_token.py` (reads Dell cache) and `get_token.py` (stdlib-only, any machine) — both mint the secret value.
-- `.github/workflows/build-playlist.yml` — the Actions runtime.
+- `.github/workflows/build-playlist.yml` (on-demand builds) + `rotate-playlists.yml` (weekly rotation).
+- `CLAUDE.md` (operator's manual, auto-loaded) · `CHANGELOG.md` (session records) · `apple-music-port.md` (deferred port plan) · `his-version-planning/` (brother's-version planning, not built).
 
-### Backlog (do at END of build, per Jacob's request)
+### Backlog (was deferred to "end of build" per Jacob — the build is done, so these are now eligible whenever he wants them)
 - **Save-to-Liked-Songs feature:** add `user-library-modify` scope + a helper so Claude can save tracks into Jacob's Liked Songs directly. He'll grant that permission later.
 - **Matcher blind spot (found building Chill):** a track can match as *confident* while being the wrong *version*. Seen: "Hozier - Cherry Wine" resolved to "Andrew Hozier-Byrne, Arlo Vega - Cherry Wine (Arr. for Guitar)" — a guitar arrangement — because "arr."/"guitar" aren't in `BAD_VERSION_WORDS` and the secondary-artist credit still scored as Hozier. Consider: add arrangement/rendition words to the penalty list, and/or penalize when the candidate has an extra lead artist the query didn't name. **Mitigation until then: always eyeball the matched titles in the run log, not just the match counts.**
 
-### The 7 standing playlists (build progress)
+### The standing playlists (build record)
 **AI DJ — Chill · Hype · Heavier · Summer · Workout · Country · Focus.** Everything else (nostalgia, seasonal, Taylor) stays on-demand. See `taste-profile.md` for what each contains.
-**ALL 7 BUILT ✅ (2026-07-09).** Each is `specs/<name>.json`, 22 tracks, all now `mode: "update"` (so re-runs replace in place). Per-playlist:
+**ALL 7 BUILT ✅ (2026-07-09), now rotating weekly (since 2026-07-10).** Each is `specs/<name>.json`, all `mode: "update"` (so re-runs replace in place). The initial-build record below is per-playlist; the rotation has since refreshed the tracklists (current contents = the spec on `main`, current picks history = `rotation-history/`):
 - **Chill** — 22/22 confident. Shook out the full loop (2 substitutions, then update-mode re-run).
 - **Hype** — 22/22 in playlist. (mgk credit tidied in spec.)
 - **Heavier** — 22/22 confident. Stayed under the OM&M screamo ceiling.
@@ -260,7 +277,9 @@ Generate tracklist → write `specs/<name>.json` → commit+push to `main` → d
 - **Country** — 22/22 confident. ("One Beer" resolves to the HIXTAPE original — correct.)
 - **Focus** — 22/22, after one substitution: "Idealism - Both of Us" resolved to the wrong song → swapped to "Emancipator - Greenland" and re-run in update mode.
 
-**Ongoing maintenance:** edit the relevant `specs/<name>.json`, commit to `main`, dispatch `Build Playlist` with that spec (already `update` mode → replaces in place). Always eyeball matched *titles* in the log, not just counts.
+**8th standing playlist — AI DJ — Soft & Moody (added 2026-07-10):** custom curation (Billie Eilish moody era / Ella Red neighborhood, dream-pop/bedroom-pop between them), 24/24 on the first run, promoted from `create` to `update` mode. **Not in the weekly rotation** — it only changes on request.
+
+**Ongoing maintenance:** edit the relevant `specs/<name>.json`, commit to `main`, dispatch `Build Playlist` with that spec (already `update` mode → replaces in place). Always eyeball matched *titles* in the log, not just counts. Note: the 7 rotating lanes get overwritten every Friday — hand-edits to those specs last until the next rotation.
 
 ### Jacob's TODO
 1. ~~Set the `SPOTIFY_REFRESH_TOKEN` secret~~ **DONE** (2026-07-09).
@@ -269,7 +288,7 @@ Generate tracklist → write `specs/<name>.json` → commit+push to `main` → d
 4. *(Optional)* delete the "AI DJ — pipe test" / "AI DJ — resolver test" playlists later.
 
 ### Environment facts (don't rediscover)
-- **Runtime is GitHub Actions**, triggered by Claude via GitHub MCP. Auth = `SPOTIFY_REFRESH_TOKEN` secret. Actions runners CAN reach Spotify.
+- **Runtime is GitHub Actions**, triggered by Claude via GitHub MCP (or cron, for the rotation). Secrets: `SPOTIFY_REFRESH_TOKEN` (delivery) + `ANTHROPIC_API_KEY` (rotation curation; dedicated key in a spend-capped Anthropic Workspace). Actions runners CAN reach Spotify.
 - **The cloud Code sandbox's egress policy BLOCKS `accounts.spotify.com` (403).** So *this Claude cannot do token exchange or run `push_playlist.py` directly* — anything touching Spotify must run on Jacob's machine or in Actions. (This is why the runtime is Actions.)
 - Jacob's Dell: Windows, PowerShell, Python 3.14.6, git 2.55, repo at `C:\Users\jskra\Documents\music-player`, git identity set, push works via browser auth (no passwords). `.spotify_token.json` cached there with full scopes.
 - All work lands on `main`.

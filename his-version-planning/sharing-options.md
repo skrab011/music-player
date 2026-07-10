@@ -13,7 +13,7 @@ _Status: brainstorm. Last updated in-session. Add options freely._
 ## Context / constraints we've established
 
 - **Spotify Premium: covered.** Brother is on Jacob's Duo plan, so the Premium
-  requirement (noted in `spotify-ai-dj-CLAUDE.md`) is already satisfied.
+  requirement (noted in `CLAUDE.md`) is already satisfied.
 - **Setup labor: Jacob will do it.** Jacob can handle the full technical setup
   on the brother's accounts — *except* the taste profile, which is personal.
 - **Brother doesn't pay for AI.** No Claude/ChatGPT subscription today. Wants to

@@ -19,7 +19,7 @@ listens in the official Spotify app. The project never plays audio. Spotify's AP
 is used only for catalog search + playlist create/update — **all curation
 intelligence comes from the model.**
 
-Reference files at repo root: `README.md`, `spotify-ai-dj-CLAUDE.md` (working
+Reference files at repo root: `README.md`, `CLAUDE.md` (working
 guide + rules), `push_playlist.py` (the delivery engine), `spotify_auth.py` /
 `get_token.py` / `config.py` (auth), `.github/workflows/build-playlist.yml`
 (the runner), `specs/*.json` (example playlist specs), `taste-profile.md`

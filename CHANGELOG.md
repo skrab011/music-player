@@ -4,6 +4,36 @@ A running record of notable changes to the AI DJ project. Newest first.
 
 ---
 
+## 2026-07-10 — Documentation consolidation
+
+The docs had drifted badly from reality (the README still said "not yet built").
+One pass to make them truthful and give each doc a single job:
+
+- **`spotify-ai-dj-CLAUDE.md` → `CLAUDE.md`** (renamed so Claude Code auto-loads
+  it) and rewritten as the lean **operator's manual**: current state, the API
+  rules, how to run the on-demand loop and maintain standing playlists, how the
+  rotation works, environment facts, and a repo map.
+- **`README.md`** rewritten to describe the built-and-running system (8 standing
+  playlists, weekly rotation, Actions runtime) instead of the pre-build plan.
+- **`spotify-ai-dj-handoff.md`** reframed as the **project reference & history**.
+  Superseded decisions annotated in place, never deleted: §2 "runs locally on the
+  Dell" → GitHub Actions; §6 "no scheduling/automation" → the weekly rotation.
+  Phase 3 marked passed-in-practice, Phase 5 marked live as the rotation. §11
+  refreshed from "resume-here / build the 7" to a current-state checkpoint
+  covering the rotation machinery and the Soft & Moody 8th standing playlist.
+- **`taste-profile.md`** — status touch-ups only (standing playlists marked
+  built + rotating; Soft & Moody noted; dated status line in the feedback log).
+  No taste content changed.
+- **`his-version-planning/`** left as-is per Jacob, except the two references to
+  the old `spotify-ai-dj-CLAUDE.md` filename, updated so the rename doesn't
+  leave dead pointers.
+
+Doc roles going forward: `CLAUDE.md` = how to operate (auto-loaded every
+session) · `spotify-ai-dj-handoff.md` = decisions, dead ends, history ·
+`CHANGELOG.md` = what happened, session by session.
+
+---
+
 ## 2026-07-10 — Custom curation, weekly discovery rotation, and brother's-version planning
 
 A single evening session. Three threads: a one-off custom playlist that became
