@@ -1,34 +1,5 @@
 [
   {
-    "week": "2026-07-24",
-    "tracks": [
-      "Currents - Kill the Ache",
-      "Holding Absence - Coffin",
-      "ERRA - Eidolon",
-      "Dayseeker - Burial Plot",
-      "Wage War - Godspeed",
-      "Northlane - Echo Chamber",
-      "Make Them Suffer - Contraband",
-      "Polaris - Hypermania",
-      "Thornhill - Arkangel",
-      "Invent Animate - Elysium",
-      "Annisokay - Escalators",
-      "Void Of Vision - Angel Of Darkness",
-      "Windwaker - Empty",
-      "Novelists - Lost Cause",
-      "Dream State - White Lies",
-      "Silent Planet - Second Sun",
-      "Loathe - Aggressive Evolution",
-      "Alpha Wolf - Sub-Zero",
-      "Bad Omens - The Grey",
-      "Our Last Night - Common Ground",
-      "Holding Absence - Nostalgia",
-      "Sleep Token - The Offering",
-      "Currents - Vengeance",
-      "Dayseeker - Without Me"
-    ]
-  },
-  {
     "week": "2026-07-31",
     "tracks": [
       "ERRA - Lunar Halo",
@@ -229,6 +200,35 @@
       "Annisokay - Friday Night Blues",
       "Sentinels - Alone",
       "Paledusk - Sofa Surfing"
+    ]
+  },
+  {
+    "week": "2026-09-25",
+    "tracks": [
+      "Bloom - Circadian",
+      "Sentinels - Fabricate",
+      "Acres - Contrast",
+      "Resolve - Coma",
+      "Bermuda - Sleep",
+      "VRSTY - Ghost",
+      "Future Palace - Beautiful",
+      "Aviana - Chaos",
+      "Landmvrks - Overrated",
+      "Imminence - Ceraph",
+      "Novelists - Antag",
+      "Rain City Drive - Medicate",
+      "Guilt Trip - River",
+      "Paledusk - Sea Of Tragedy",
+      "Distant - Tocsin",
+      "Bloodline - Feed The Fire",
+      "Windwaker - HAPPY?",
+      "Annisokay - Bienvenue",
+      "Dayseeker - Neon Grave",
+      "Invent Animate - Immolation Of Night",
+      "ERRA - Wave",
+      "Thornhill - Where The Sun Never Rises",
+      "Make Them Suffer - Erase Me",
+      "Polaris - Masochist"
     ]
   }
 ]
