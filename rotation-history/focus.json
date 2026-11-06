@@ -1,34 +1,5 @@
 [
   {
-    "week": "2026-09-04",
-    "tracks": [
-      "Tor - Two Worlds",
-      "Emancipator - Black Lake",
-      "Bonobo - Migration",
-      "Tycho - Montana",
-      "Helios - Every Passing Hour",
-      "Christian L\u00f6ffler - Nordborg",
-      "Nymano - Adrift",
-      "Kupla - Delta",
-      "Aso - Charlie",
-      "Jinsang - Memories",
-      "L'ind\u00e9cis - Staying There",
-      "Idealism - in the dark",
-      "Bibio - Jealous of Roses",
-      "Ott - Squirrel and Biscuits",
-      "Quantic - Sound of Everything",
-      "Gidge - Cerh",
-      "\u00d3lafur Arnalds - Ekki Hugsa",
-      "Rhian Sheehan - Tomorrow, When the World Ends",
-      "Kiasmos - Fold",
-      "Jon Hopkins - Breathe This Air",
-      "Blockhead - Sunday S\u00e9ance",
-      "Yppah - Occassional Magic",
-      "El Ten Eleven - Every Direction Is North",
-      "Poldoore - Slush"
-    ]
-  },
-  {
     "week": "2026-09-11",
     "tracks": [
       "Emancipator - Ghost Pong",
@@ -229,6 +200,35 @@
       "Rhian Sheehan - Seasons Change",
       "Poldoore - The Old Trail",
       "Blockhead - Which One of You Jerks Drank My Arnold Palmer?"
+    ]
+  },
+  {
+    "week": "2026-11-06",
+    "tracks": [
+      "Tor - Mandala",
+      "Emancipator - Elephant Survival",
+      "Bonobo - Stay the Same",
+      "Tycho - Epoch",
+      "Helios - Backlight",
+      "Christian L\u00f6ffler - Beirut",
+      "Nymano - Jazz Cafe",
+      "Kupla - Breeze",
+      "Aso - Seashore",
+      "Jinsang - Affection",
+      "L'ind\u00e9cis - Soulful",
+      "Idealism - Controlla",
+      "Bibio - You Won't Remember",
+      "Ott - The Queen of All Everything",
+      "Quantic - Through These Eyes",
+      "Gidge - Cutting Room",
+      "\u00d3lafur Arnalds - Doria",
+      "Rhian Sheehan - Hinemoana",
+      "Kiasmos - Thrown",
+      "Jon Hopkins - The Low Places",
+      "Blockhead - Attack the Doctor",
+      "Yppah - Never Mess With Sunday",
+      "El Ten Eleven - Thanks Bill",
+      "Poldoore - Moonwalk"
     ]
   }
 ]

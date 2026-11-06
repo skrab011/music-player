@@ -1,34 +1,5 @@
 [
   {
-    "week": "2026-09-04",
-    "tracks": [
-      "Turnpike Troubadours - Gin, Smoke, Lies",
-      "Colter Wall - Thirteen Silver Dollars",
-      "Cody Jinks - Somewhere Between I Love You and I'm Leavin'",
-      "Whiskey Myers - Bury My Bones",
-      "American Aquarium - Casualties",
-      "Charley Crockett - Music City USA",
-      "Shane Smith & the Saints - Book of Joe",
-      "Tyler Childers - Lady May",
-      "Sturgill Simpson - Turtles All the Way Down",
-      "Josh Meloy - Feelin' Good",
-      "Read Southall Band - Don't",
-      "49 Winchester - Last Call",
-      "Drayton Farley - Halfway to Hell",
-      "Flatland Cavalry - Gettin' By",
-      "Randall King - Mirror, Mirror",
-      "Charles Wesley Godwin - Jesse",
-      "Kaitlin Butts - Marfa Lights",
-      "William Beckmann - Lonely in Love",
-      "Wyatt Flores - Life Lessons",
-      "Ella Langley - Girl Who Cried Wolf",
-      "Zach Top - Justa Guy",
-      "Muscadine Bloodline - Movin' On",
-      "Treaty Oak Revival - Somewhere Cold",
-      "Stephen Wilson Jr. - American Gothic"
-    ]
-  },
-  {
     "week": "2026-09-11",
     "tracks": [
       "Charles Wesley Godwin - Gaslight",
@@ -229,6 +200,35 @@
       "Logan Halstead - Dark Side of the Mountain",
       "Ian Munsick - Long Haul",
       "Braxton Keith - Back of My Mind"
+    ]
+  },
+  {
+    "week": "2026-11-06",
+    "tracks": [
+      "Ward Davis - Threads",
+      "Zach Bryan - Highway Boys",
+      "Jason Boland & the Stragglers - Bottle by My Bed",
+      "Mike and the Moonpies - You Look Good in Neon",
+      "Hayes Carll - She Left Me for Jesus",
+      "Cross Canadian Ragweed - Boys from Oklahoma",
+      "Reckless Kelly - Wicked Twisted Road",
+      "William Clark Green - She Likes the Beatles",
+      "Vincent Neil Emerson - Learnin' to Drown",
+      "Jason Eady - Drive",
+      "Ryan Bingham - Bread and Water",
+      "Koe Wetzel - Something to Talk About",
+      "Parker McCollum - Pretty Heart",
+      "Pat Green - Wave on Wave",
+      "Jamie Lin Wilson - Just Like Heaven",
+      "Logan Halstead - Country Roads",
+      "Corey Kent - This Heart",
+      "Kameron Marlowe - Burn 'Em All",
+      "Dillon Carmichael - Hot Beer",
+      "Nolan Taylor - That's Where I'll Be",
+      "Ian Munsick - Long Live Cowgirls",
+      "Braxton Keith - Heartbreak County",
+      "Grant Gilbert - Honky Tonk Heaven",
+      "Hudson Westbrook - House Again"
     ]
   }
 ]
