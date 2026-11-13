@@ -1,34 +1,5 @@
 [
   {
-    "week": "2026-09-11",
-    "tracks": [
-      "Erra - Skyline",
-      "Currents - Into Despair",
-      "Wage War - Stitch",
-      "Northlane - Intuition",
-      "Invent Animate - Absence",
-      "Make Them Suffer - Sanctuary",
-      "Polaris - Pray for Rain",
-      "Thornhill - Coma",
-      "Dayseeker - The Color Black",
-      "Holding Absence - Gravity",
-      "Landmvrks - Reflections",
-      "Future Palace - Illusion",
-      "Imminence - Heaven in Hiding",
-      "Rain City Drive - Chemical",
-      "Annisokay - Overload",
-      "Acres - Head Underwater",
-      "Resolve - Loosen the Grip Around My Neck",
-      "Aviana - Heartache",
-      "VRSTY - Coming Down",
-      "Sentinels - Nightfall",
-      "Novelists - Nine Lives",
-      "Bermuda - Vantablack",
-      "Sylosis - Empyreal",
-      "Void Of Vision - Splinter"
-    ]
-  },
-  {
     "week": "2026-09-18",
     "tracks": [
       "Erra - Snowblood",
@@ -229,6 +200,35 @@
       "Dvne - Court of the Matriarch",
       "Lorna Shore - Of the Abyss",
       "No Cure - Bleeding Out"
+    ]
+  },
+  {
+    "week": "2026-11-13",
+    "tracks": [
+      "Invent Animate - Heartworm",
+      "ERRA - Pseudo-Masochist",
+      "Currents - Unfamiliar",
+      "Wage War - Grave",
+      "Northlane - Enemy of the Night",
+      "Thornhill - The Light",
+      "Dayseeker - Sticks and Stones",
+      "Holding Absence - Coffin",
+      "Make Them Suffer - Oscillator",
+      "Polaris - Overflow",
+      "Imminence - Infectious",
+      "Caskets - Signs of Life",
+      "Rain City Drive - Can You Feel It",
+      "Annisokay - The Tragedy",
+      "Sentinels - Shadowbox",
+      "Future Palace - Bones",
+      "Loathe - New Faces in the Dark",
+      "Archetypes Collide - Parasite",
+      "Diamond Construct - PANIC",
+      "Belle Haven - Afraid, Afraid, Afraid",
+      "Gravemind - The Hierophant",
+      "Crystal Lake - Aeon",
+      "Silent Planet - Trilogy: The Decimation of Man",
+      "Novelists - Lost Cause"
     ]
   }
 ]
