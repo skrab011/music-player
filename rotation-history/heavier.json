@@ -1,34 +1,5 @@
 [
   {
-    "week": "2026-09-18",
-    "tracks": [
-      "Erra - Snowblood",
-      "Invent Animate - Cade",
-      "Currents - Monsters",
-      "Dayseeker - Trapped Under Ice",
-      "Wage War - Low",
-      "Northlane - Bloodline",
-      "Thornhill - Casanova",
-      "Holding Absence - The Angel In The Marble",
-      "Make Them Suffer - Doomswitch",
-      "Imminence - Come Hell or High Water",
-      "Landmvrks - Blistering",
-      "Future Palace - Escape",
-      "Resolve - Perle",
-      "Aviana - Falling",
-      "Rain City Drive - Napalm",
-      "VRSTY - Vertigo",
-      "Acres - Cripple",
-      "Bermuda - Colder",
-      "Novelists - Head Above Water",
-      "Silent Planet - Alive, As A Housefire",
-      "Polaris - Landmine",
-      "Annisokay - Friday Night Blues",
-      "Sentinels - Alone",
-      "Paledusk - Sofa Surfing"
-    ]
-  },
-  {
     "week": "2026-09-25",
     "tracks": [
       "Bloom - Circadian",
@@ -229,6 +200,35 @@
       "Crystal Lake - Aeon",
       "Silent Planet - Trilogy: The Decimation of Man",
       "Novelists - Lost Cause"
+    ]
+  },
+  {
+    "week": "2026-11-20",
+    "tracks": [
+      "Currents - Vengeance",
+      "ERRA - Divisionary",
+      "Invent Animate - Purity Weeps",
+      "Dayseeker - Dark Sun",
+      "Holding Absence - Gravitas",
+      "Wage War - Stitch",
+      "Northlane - Talking Heads",
+      "Thornhill - Nurture",
+      "Make Them Suffer - Ghost of Me",
+      "Imminence - The Sickness",
+      "Landmvrks - Creature",
+      "Caskets - More Than Misery",
+      "Polaris - Pray for Rain",
+      "Annisokay - Namikaze",
+      "Sentinels - Shiver",
+      "Diamond Construct - Big Dog",
+      "Belle Haven - The Mould",
+      "Gravemind - Ettin",
+      "Crystal Lake - Devilcry",
+      "Archetypes Collide - Chemical",
+      "Loathe - Is It Really You?",
+      "Silent Planet - Offworlder",
+      "Novelists - Heartless",
+      "Future Palace - Prey II"
     ]
   }
 ]
